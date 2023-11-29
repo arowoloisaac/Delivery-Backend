@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Arowolo_Delivery_Project.props" />
+</Project>

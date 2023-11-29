@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\Arowolo_Delivery_Project.props" />
+</Project>
