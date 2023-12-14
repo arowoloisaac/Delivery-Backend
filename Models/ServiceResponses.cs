@@ -4,19 +4,19 @@ namespace Arowolo_Delivery_Project.Models
 {
     public class ServiceResponses
     {
-        public List<GetDishDto> dishes { get; set; } = new List<GetDishDto>();
-        public PageInfo pagination { get; set; }
+        public List<GetDishDto> Dishes { get; set; } = new List<GetDishDto>();
+        public PageInfo Pagination { get; set; }
 
         public ServiceResponses(List<GetDishDto> dish, int page, int total, int size)
         {
-            this.dishes = dish;
+            this.Dishes = dish;
 
             //this.pagination = new PageInfo(page, total, size);
-            this.pagination = new PageInfo
+            this.Pagination = new PageInfo
             {
-                count = total,
-                current = page,
-                size = size
+                Count = total,
+                Current = page,
+                Size = size
             };
         }
     }
@@ -24,17 +24,17 @@ namespace Arowolo_Delivery_Project.Models
 
     public class PageInfo
     {
-        public int size { get; set; }
-        public int current { get; set; }
-        public int count { get; set; }
+        public int Size { get; set; }
+        public int Current { get; set; }
+        public int Count { get; set; }
 
         public PageInfo() { }
 
         public PageInfo(int size, int current, int count)
         {
-            this.size = size;
-            this.current = current;
-            this.count = count;
+            this.Size = size;
+            this.Current = current;
+            this.Count = count;
         }
     }
 }

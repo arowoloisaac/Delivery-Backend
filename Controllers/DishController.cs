@@ -43,11 +43,11 @@ namespace Arowolo_Delivery_Project.Controllers
             return Ok( await _dishService.GetDishById(id));
         }
 
-        /*[HttpGet("GetAllDish")]
-        public Task<ActionResult<List<Dish>>> GetDishes(Category? category, bool? vegetarian, Sort? sort, int? page)
+        [HttpGet("GetAllDish")]
+        public async Task<IActionResult> GetDishes(Category? category, bool? vegetarian, Sorting? sort, int? page)
         {
-            throw new NotImplementedException();
-        }*/
+            return Ok(await _dishService.GetDishes(category, vegetarian, sort, page));
+        }
 
     }
 }
