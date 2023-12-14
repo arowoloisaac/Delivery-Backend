@@ -1,4 +1,8 @@
 
+using Arowolo_Delivery_Project.Data;
+using Arowolo_Delivery_Project.Services.DishService;
+using Microsoft.EntityFrameworkCore;
+
 namespace Arowolo_Delivery_Project
 {
     public class Program
@@ -13,6 +17,11 @@ namespace Arowolo_Delivery_Project
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddDbContext<ApplicationDbContext>(
+                options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+
+            builder.Services.AddScoped<IDishService, DishService>();
 
             var app = builder.Build();
 

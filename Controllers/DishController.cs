@@ -1,5 +1,6 @@
 ﻿using Arowolo_Delivery_Project.Enums;
 using Arowolo_Delivery_Project.Models;
+using Arowolo_Delivery_Project.Services.DishService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,51 +10,32 @@ namespace Arowolo_Delivery_Project.Controllers
     [ApiController]
     public class DishController : ControllerBase
     {
+        public readonly IDishService _dishService;
 
-        private static List<Dish> dishes = new List<Dish>
+        public DishController(IDishService dishService)
         {
-            new Dish(),
-            new Dish
-            {
-                Name = "Bean",
-                Description = "sweet igboyin beans",
-                Category = Category.Soup,
-                IsVegetarian = false,
-                Price = 100,
-
-            },
-            new Dish
-            {
-                Name = "Yam",
-                Description = "sweet mashed yam",
-                Category = Category.Soup,
-                IsVegetarian = true,
-                Price = 150,
-            }
-        };
-
+            _dishService = dishService;
+        }
 
         // to be deleted later
         [HttpPost("PostDish")]
         public async Task<ActionResult<List<Dish>>> PostDish(Dish newDish)
         {
-            dishes.Add(newDish);
-            return Ok(dishes);
+            return Ok(_dishService.AddDishes(newDish));
         }
 
 
         [HttpGet("{id}")]
         public async Task<ActionResult<List<Dish>>> GetDishById(Guid id)
         {
-            var dish = dishes.FirstOrDefault(d => d.Id == id);
-            return Ok(dish);
+            return Ok(_dishService.GetDishById(id));
         }
 
-        [HttpGet("GetAllDish")]
+        /*[HttpGet("GetAllDish")]
         public Task<ActionResult<List<Dish>>> GetDishes(Category? category, bool? vegetarian, Sort? sort, int? page)
         {
             throw new NotImplementedException();
-        }
+        }*/
 
     }
 }

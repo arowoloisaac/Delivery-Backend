@@ -4,7 +4,7 @@ namespace Arowolo_Delivery_Project.Models
 {
     public class Dish
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public int Price { get; set; }
