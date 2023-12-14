@@ -1,57 +1,54 @@
-﻿using Arowolo_Delivery_Project.Dtos.DishDto;
+﻿using Arowolo_Delivery_Project.Data;
+using Arowolo_Delivery_Project.Dtos.DishDto;
 using Arowolo_Delivery_Project.Enums;
 using Arowolo_Delivery_Project.Models;
+using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace Arowolo_Delivery_Project.Services.DishService
 {
     public class DishService : IDishService
     {
+        private readonly IMapper _mapper;
+        private readonly ApplicationDbContext _context;
 
-        private static List<Dish> dishes = new List<Dish>
+        public DishService(IMapper mapper, ApplicationDbContext context)
         {
-            new Dish(),
-            new Dish
-            {
-                Name = "Bean",
-                Description = "sweet igboyin beans",
-                Category = Category.Soup,
-                IsVegetarian = false,
-                Price = 100,
+            _mapper = mapper;
+            _context = context;
+        }
 
-            },
-            new Dish
+
+        public async Task<List<GetDishDto>> AddDishes(AddDishDto newDish)
+        {
+            var dish = await _context.Dishes.FirstOrDefaultAsync( dish => dish.Name.ToLower() == newDish.Name.ToLower());
+
+            if (dish is not null)
             {
-                Name = "Yam",
-                Description = "sweet mashed yam",
-                Category = Category.Soup,
-                IsVegetarian = true,
-                Price = 150,
+                throw new ArgumentException($"Dish with {dish.Name} already exist");
             }
-        };
 
+            _context.Dishes.Add(_mapper.Map<Dish>(newDish));
+            await _context.SaveChangesAsync();
 
-        public List<Dish> AddDishes(Dish newDish)
+            var dbDishes = await _context.Dishes.ToListAsync();
+            
+            var mapperDishes = dbDishes.Select( dish => _mapper.Map<GetDishDto>(dish) ).ToList();
+
+            return mapperDishes;
+        }
+
+        //for getting dish by ID
+        public async Task<GetDishDto> GetDishById(Guid id)
         {
+            var dish = await _context.Dishes.FirstOrDefaultAsync(d => d.Id == id);
 
-            var newD = new Dish
+            if (dish is null)
             {
-                Name = newDish.Name,
-                Description = newDish.Description,
-                Category = newDish.Category,
-                Price = newDish.Price,
-                Rating = 7
-            };
-
-            dishes.Add(newD);
-
-            return dishes;
+                throw new Exception($"Dish with {dish?.Id} doesn't exist");
+            }
+            return _mapper.Map<GetDishDto>(dish);
         }
 
-        public Dish GetDishById(Guid id)
-        {
-            var dish = dishes.FirstOrDefault(d => d.Id == id);
-
-            return dish;
-        }
     }
 }

@@ -1,7 +1,9 @@
-﻿using Arowolo_Delivery_Project.Enums;
+﻿using Arowolo_Delivery_Project.Dtos.DishDto;
+using Arowolo_Delivery_Project.Enums;
 using Arowolo_Delivery_Project.Models;
 using Arowolo_Delivery_Project.Services.DishService;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Arowolo_Delivery_Project.Controllers
@@ -19,16 +21,26 @@ namespace Arowolo_Delivery_Project.Controllers
 
         // to be deleted later
         [HttpPost("PostDish")]
-        public async Task<ActionResult<List<Dish>>> PostDish(Dish newDish)
+        public async Task<ActionResult<List<GetDishDto>>> PostDish(AddDishDto newDish)
         {
-            return Ok(_dishService.AddDishes(newDish));
+            try
+            {
+                return Ok(await _dishService.AddDishes(newDish));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
+
+            //return Ok(await _dishService.AddDishes(newDish));
         }
 
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<List<Dish>>> GetDishById(Guid id)
+        public async Task<ActionResult<List<GetDishDto>>> GetDishById(Guid id)
         {
-            return Ok(_dishService.GetDishById(id));
+            return Ok( await _dishService.GetDishById(id));
         }
 
         /*[HttpGet("GetAllDish")]

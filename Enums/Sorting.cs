@@ -1,6 +1,6 @@
 ﻿namespace Arowolo_Delivery_Project.Enums
 {
-    public enum Sort
+    public enum Sorting
     {
         NameAsc,
         NameDesc,

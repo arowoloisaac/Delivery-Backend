@@ -5,8 +5,8 @@ namespace Arowolo_Delivery_Project.Services.DishService
 {
     public interface IDishService
     {
-        Dish GetDishById(Guid id);
+        Task<GetDishDto> GetDishById(Guid id);
 
-        List<Dish> AddDishes(Dish newDish);
+        Task<List<GetDishDto>> AddDishes(AddDishDto newDish);
     }
 }
