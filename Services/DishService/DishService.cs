@@ -59,11 +59,11 @@ namespace Arowolo_Delivery_Project.Services.DishService
             int pageResult = 5;
             int currentPage = page.HasValue && page > 0 ? page.Value : 1;
 
+            int totalItems;
+            int pageCount;
+
             if (category == null || vegetarian == null || sort == null || page == null)
             {
-                int totalItems;
-                int pageCount;
-
                 // filtereing for category
                 if ((category != null && vegetarian == null && sort == null && page == null) || (category != null && vegetarian == null && sort == null && page != null))
                 {
@@ -98,8 +98,7 @@ namespace Arowolo_Delivery_Project.Services.DishService
 
                 // filtereing for category, isVegetarian, sort
                 //else if ((category != null && vegetarian != null && sort != null && page == null|| page != null))
-                else if ((category != null && vegetarian != null && sort != null && page == null) ||
-                    (category != null && vegetarian != null && sort != null && page != null))
+                else if (category != null && vegetarian != null && sort != null && page == null)
                 {
                     filteredDishes = filteredDishes.Where((filter) => filter.Category == category);
                     filteredDishes = filteredDishes.Where(filter => filter.IsVegetarian == vegetarian);
@@ -133,7 +132,7 @@ namespace Arowolo_Delivery_Project.Services.DishService
 
                     var dish = filteredDishes.Skip((currentPage - 1) * pageResult).Take(pageResult).ToList();
 
-                    totalItems = dish.Count;
+                    totalItems = dish.Count();
                     pageCount = ( totalItems/pageResult ) + 1;
 
                     dish.Select(dish => _mapper.Map<GetDishDto>(dish)).ToList();
@@ -149,7 +148,7 @@ namespace Arowolo_Delivery_Project.Services.DishService
 
                     var dish = filteredDishes.Skip((currentPage - 1) * pageResult).Take(pageResult).ToList();
 
-                    totalItems = dish.Count;
+                    totalItems = dish.Count();
                     pageCount = ( totalItems/pageResult )+ 1;
 
                     dish.Select( dish => _mapper.Map<GetDishDto>(dish)).ToList();
@@ -233,7 +232,7 @@ namespace Arowolo_Delivery_Project.Services.DishService
 
                     var dish = filteredDishes.Skip((currentPage - 1) * pageResult).Take(pageResult).ToList();
 
-                    totalItems = dish.Count;
+                    totalItems = dish.Count();
                     pageCount = (totalItems/pageResult) + 1;
 
                     dish.Select( dish => _mapper.Map<GetDishDto>(dish)).ToList();
@@ -251,6 +250,53 @@ namespace Arowolo_Delivery_Project.Services.DishService
                     pageCount = (totalItems / pageResult) + 1;
 
                     dish.Select(c => _mapper.Map<GetDishDto>(c)).ToList();
+
+                    var response = new ServiceResponses(dish, currentPage, totalItems, pageCount);
+                    return response;
+                }
+            }
+
+
+            else
+            {
+                if(category != null && vegetarian != null && sort != null && page != null)
+                {
+                    filteredDishes = filteredDishes.Where((filter) => filter.Category == category);
+                    filteredDishes = filteredDishes.Where(filter => filter.IsVegetarian == vegetarian);
+
+                    switch (sort)
+                    {
+                        case Sorting.NameAsc:
+                            filteredDishes = filteredDishes.OrderBy(filterBy => filterBy.Name);
+                            break;
+
+                        case Sorting.NameDesc:
+                            filteredDishes = filteredDishes.OrderByDescending(filterBy => filterBy.Name);
+                            break;
+
+                        case Sorting.PriceAsc:
+                            filteredDishes = filteredDishes.OrderBy(filterBy => filterBy.Price);
+                            break;
+
+                        case Sorting.PriceDesc:
+                            filteredDishes = filteredDishes.OrderByDescending(filterBy => filterBy.Price);
+                            break;
+
+                        case Sorting.RatingAsc:
+                            filteredDishes = filteredDishes.OrderBy(filterBy => filterBy.Rating);
+                            break;
+
+                        case Sorting.RatingDesc:
+                            filteredDishes = filteredDishes.OrderByDescending(filterBy => filterBy.Rating);
+                            break;
+                    }
+
+                    var dish = filteredDishes.Skip((currentPage - 1) * pageResult).Take(pageResult).ToList();
+
+                    totalItems = dish.Count();
+                    pageCount = (totalItems / pageResult) + 1;
+
+                    dish.Select(dish => _mapper.Map<GetDishDto>(dish)).ToList();
 
                     var response = new ServiceResponses(dish, currentPage, totalItems, pageCount);
                     return response;
