@@ -97,7 +97,6 @@ namespace Arowolo_Delivery_Project.Services.DishService
                 }
 
                 // filtereing for category, isVegetarian, sort
-                //else if ((category != null && vegetarian != null && sort != null && page == null|| page != null))
                 else if (category != null && vegetarian != null && sort != null && page == null)
                 {
                     filteredDishes = filteredDishes.Where((filter) => filter.Category == category);
