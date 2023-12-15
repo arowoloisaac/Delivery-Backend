@@ -10,6 +10,7 @@ namespace Arowolo_Delivery_Project.Cofiguration
         {
             CreateMap<Dish, GetDishDto>();
             CreateMap<AddDishDto, Dish>();
+            CreateMap<RatingDto, Rating>();
         }
     }
 }
