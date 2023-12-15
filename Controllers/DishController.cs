@@ -43,10 +43,24 @@ namespace Arowolo_Delivery_Project.Controllers
             return Ok( await _dishService.GetDishById(id));
         }
 
-        [HttpGet("GetAllDish")]
+        [HttpGet]
         public async Task<IActionResult> GetDishes(Category? category, bool? vegetarian, Sorting? sort, int? page)
         {
             return Ok(await _dishService.GetDishes(category, vegetarian, sort, page));
+        }
+
+
+        [HttpGet("{id}/check/rating")]
+        public async Task<IActionResult> CheckRating(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        [HttpPost("rating")]
+        public async Task<IActionResult> PostRating(Guid id, int value)
+        {
+            throw new NotImplementedException();
         }
 
     }
