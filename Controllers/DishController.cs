@@ -65,11 +65,6 @@ namespace Arowolo_Delivery_Project.Controllers
             return Ok(await _dishService.GetDishes(category, vegetarian, sort, page));
         }
 
-        [HttpGet("check")]
-        public async Task<IActionResult> GetDishs([FromQuery] List<Category> category, bool? vegetarian, Sorting? sort, int? page)
-        {
-            return Ok();
-        }
 
         [HttpGet("{id}/check/rating")]
         public async Task<IActionResult> CheckRating(Guid id)
@@ -96,7 +91,6 @@ namespace Arowolo_Delivery_Project.Controllers
             {
                 return BadRequest(ex.Message);
             }
-            //return Ok(await _dishService.AddRating(id, value));
         }
 
     }
