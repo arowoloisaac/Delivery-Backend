@@ -1,4 +1,5 @@
-﻿using Arowolo_Delivery_Project.Dtos.UserDtos;
+﻿using Arowolo_Delivery_Project.Cofiguration;
+using Arowolo_Delivery_Project.Dtos.UserDtos;
 using Arowolo_Delivery_Project.Services.TokenService;
 using Arowolo_Delivery_Project.Services.UserService;
 using Microsoft.AspNetCore.Authorization;
@@ -15,9 +16,10 @@ namespace Arowolo_Delivery_Project.Controllers
         private readonly IUserService _userService;
         private ITokenStorageService _tokenStorageService;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, ITokenStorageService tokenStorageService)
         {
             _userService = userService;
+            _tokenStorageService = tokenStorageService;
         }
 
         [HttpPost("register")]
@@ -41,21 +43,70 @@ namespace Arowolo_Delivery_Project.Controllers
         }
 
         [HttpGet("profile")]
-        public async Task<IActionResult> GetUserProfile() 
+        [Authorize(Policy = ApplicationRoleNames.Administrator)]
+        public async Task<ActionResult<UserProfileDto>> GetUserProfile() 
         {  
-            throw new NotImplementedException(); 
+            try
+            {
+                var emailClaim = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Email);
+
+                return await _userService.GetProfile(emailClaim.Value);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound();  
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
+            catch
+            {
+                return BadRequest();
+            }
+            
         }
 
         [HttpPut("profile")]
-        public async Task<IActionResult> EditProfile()
+        [Authorize]
+        public async Task<IActionResult> EditProfile(EditUserDto model)
         {
-            throw new NotImplementedException();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                var user = User.Identity!.IsAuthenticated;
+                await _userService.EditProfile(model);
+                return Ok();
+            }
+
+            catch (Exception ex) 
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login()
+        public async Task<IActionResult> Login([FromBody] LoginUserDto model)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return Ok(await _userService.Login(model));
+            }
+            catch (InvalidOperationException ex)
+            {
+                // Write logs
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500);
+            }
+
+            return BadRequest();
         }
 
         [HttpPost("logout")]
