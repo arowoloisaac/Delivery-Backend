@@ -1,7 +1,10 @@
 ﻿using Arowolo_Delivery_Project.Dtos.UserDtos;
+using Arowolo_Delivery_Project.Services.TokenService;
 using Arowolo_Delivery_Project.Services.UserService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Arowolo_Delivery_Project.Controllers
 {
@@ -10,6 +13,7 @@ namespace Arowolo_Delivery_Project.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        private ITokenStorageService _tokenStorageService;
 
         public UserController(IUserService userService)
         {
@@ -55,9 +59,12 @@ namespace Arowolo_Delivery_Project.Controllers
         }
 
         [HttpPost("logout")]
-        public async Task<IActionResult> Logout()
+        [Authorize]
+        public IActionResult Logout()
         {
-            throw new NotImplementedException();
+            var id = Guid.Parse(User.FindFirst(ClaimTypes.Authentication).Value);
+            _tokenStorageService.LogoutToken(id);
+            return Ok();
         }
     }
 }
