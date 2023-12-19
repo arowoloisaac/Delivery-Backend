@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-  
-=======
-
 using Arowolo_Delivery_Project.Cofiguration;
->>>>>>> user_controller
 using Arowolo_Delivery_Project.Data;
 using Arowolo_Delivery_Project.Models;
 using Arowolo_Delivery_Project.Services.BackgroundJobs;
