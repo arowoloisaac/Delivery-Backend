@@ -85,3 +85,7 @@ C:\Users\arowo\source\repos\Arowolo_Delivery_Project\bin\Debug\net7.0\Microsoft.
 C:\Users\arowo\source\repos\Arowolo_Delivery_Project\bin\Debug\net7.0\Quartz.dll
 C:\Users\arowo\source\repos\Arowolo_Delivery_Project\bin\Debug\net7.0\Quartz.Extensions.DependencyInjection.dll
 C:\Users\arowo\source\repos\Arowolo_Delivery_Project\bin\Debug\net7.0\Quartz.Extensions.Hosting.dll
+C:\Users\arowo\source\repos\Arowolo_Delivery_Project\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\arowo\source\repos\Arowolo_Delivery_Project\bin\Debug\net7.0\NLog.dll
+C:\Users\arowo\source\repos\Arowolo_Delivery_Project\bin\Debug\net7.0\NLog.Extensions.Logging.dll
+C:\Users\arowo\source\repos\Arowolo_Delivery_Project\bin\Debug\net7.0\NLog.Web.AspNetCore.dll
