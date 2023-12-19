@@ -4,6 +4,7 @@ using Arowolo_Delivery_Project.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Arowolo_Delivery_Project.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231216083048_AddUserToDatabase")]
+    partial class AddUserToDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,29 +58,6 @@ namespace Arowolo_Delivery_Project.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Dishes");
-                });
-
-            modelBuilder.Entity("Arowolo_Delivery_Project.Models.LogoutToken", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreateDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeleteDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("Identifier")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("ModifyDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("LogoutTokens");
                 });
 
             modelBuilder.Entity("Arowolo_Delivery_Project.Models.Rating", b =>

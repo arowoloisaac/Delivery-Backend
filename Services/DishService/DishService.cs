@@ -69,7 +69,6 @@ namespace Arowolo_Delivery_Project.Services.DishService
                 // filtereing for category
                 if ((category != null && vegetarian == null && sort == null && page == null) || (category != null && vegetarian == null && sort == null && page != null))
                 {
-                    //var allCategories = category.SelectMany(c => c).ToList();
                     //filteredDishes = filteredDishes.Where(filter => filter.Category == category);
                     filteredDishes = filteredDishes.Where(filter => category.Contains(filter.Category));
                     var dish = filteredDishes.Skip((currentPage - 1) * pageResult).Take(pageResult).ToList();
@@ -86,7 +85,6 @@ namespace Arowolo_Delivery_Project.Services.DishService
                 // filtereing for category, isVegetarian
                 else if ((category != null && vegetarian != null && sort == null && page == null) || (category != null && vegetarian != null && sort == null && page != null))
                 {
-                    //var allCategories = category.SelectMany(c => c).ToList();
                     filteredDishes = filteredDishes.Where((filter) => category.Contains(filter.Category));
                     //filteredDishes = filteredDishes.Where(filter => filter.Category == category);
                     filteredDishes = filteredDishes.Where(filter => filter.IsVegetarian == vegetarian);

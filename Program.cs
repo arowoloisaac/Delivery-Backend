@@ -1,13 +1,30 @@
+<<<<<<< HEAD
   
+=======
+
+using Arowolo_Delivery_Project.Cofiguration;
+>>>>>>> user_controller
 using Arowolo_Delivery_Project.Data;
+using Arowolo_Delivery_Project.Models;
+using Arowolo_Delivery_Project.Services.BackgroundJobs;
 using Arowolo_Delivery_Project.Services.DishService;
+using Arowolo_Delivery_Project.Services.Initialization;
+using Arowolo_Delivery_Project.Services.TokenService;
+using Arowolo_Delivery_Project.Services.UserService;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using NLog.Web;
+using Quartz;
+using System.Security.Claims;
+using System.Text;
 
 namespace Arowolo_Delivery_Project
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -22,12 +39,80 @@ namespace Arowolo_Delivery_Project
 
 
             builder.Services.AddScoped<IDishService, DishService>();
-
+            builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<ITokenStorageService, TokenDbStorageService>();
 
             //add automapper
             builder.Services.AddAutoMapper(typeof(Program).Assembly);
+            builder.Host.UseNLog();
+
+            builder.Services.AddIdentity<User, Role>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = false;
+                options.Password.RequiredLength = 6;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireDigit = false;
+                options.Password.RequireNonAlphanumeric = false;
+            })
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy(ApplicationRoleNames.User,
+                    new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build());
+
+                options.AddPolicy(ApplicationRoleNames.Administrator, new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .RequireRole(ApplicationRoleNames.Administrator)
+                    .RequireClaim(ClaimTypes.Role, ApplicationRoleNames.Administrator)
+                    .Build());
+            });
+
+
+            //Adding Quartz
+            builder.Services.AddQuartz(q =>
+            {
+                q.UseMicrosoftDependencyInjectionJobFactory();
+                q.AddJob<BackgroundJob>(o => o.WithIdentity(nameof(BackgroundJob)));
+
+                q.AddTrigger(o =>
+                    o.ForJob(nameof(BackgroundJob))
+                        .WithIdentity(nameof(BackgroundJob))
+                        .StartNow()
+                        .WithSimpleSchedule(x => x.WithIntervalInHours(24)
+                            .RepeatForever()));
+            });
+
+            builder.Services.AddQuartzHostedService(x => x.WaitForJobsToComplete = true);
+
+            var jwtSection = builder.Configuration.GetSection("JwtBearerTokenSettings");
+            builder.Services.Configure<JwtBearerTokenSettings>(jwtSection);
+
+            var jwtConfiguration = jwtSection.Get<JwtBearerTokenSettings>();
+            var key = Encoding.ASCII.GetBytes(jwtConfiguration.SecretKey);
+
+            builder.Services.AddAuthentication(option =>
+            {
+                option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidAudience = jwtConfiguration.Audience,
+                    ValidIssuer = jwtConfiguration.Issuer,
+                    IssuerSigningKey = new SymmetricSecurityKey(key)
+                };
+            });
 
             var app = builder.Build();
+
+            using var serviceScope = app.Services.CreateScope();
+            var context = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
+            context.Database.Migrate();
+
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -40,6 +125,8 @@ namespace Arowolo_Delivery_Project
 
             app.UseAuthorization();
 
+            app.UseAuthentication();
+            await app.ConfigureIdentityAsync();
 
             app.MapControllers();
 

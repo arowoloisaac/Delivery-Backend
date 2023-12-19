@@ -49,6 +49,14 @@
               "target": "Package",
               "version": "[12.0.1, )"
             },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[7.0.11, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.11, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[7.0.13, )"
@@ -72,6 +80,26 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[7.0.11, )"
+            },
+            "NLog": {
+              "target": "Package",
+              "version": "[5.2.5, )"
+            },
+            "NLog.Web.AspNetCore": {
+              "target": "Package",
+              "version": "[5.3.5, )"
+            },
+            "Quartz": {
+              "target": "Package",
+              "version": "[3.7.0, )"
+            },
+            "Quartz.Extensions.DependencyInjection": {
+              "target": "Package",
+              "version": "[3.7.0, )"
+            },
+            "Quartz.Extensions.Hosting": {
+              "target": "Package",
+              "version": "[3.7.0, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
