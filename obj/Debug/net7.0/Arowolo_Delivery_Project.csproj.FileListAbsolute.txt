@@ -82,3 +82,6 @@ C:\Users\arowo\source\repos\Arowolo_Delivery_Project\bin\Debug\net7.0\Microsoft.
 C:\Users\arowo\source\repos\Arowolo_Delivery_Project\bin\Debug\net7.0\Microsoft.Extensions.Identity.Core.dll
 C:\Users\arowo\source\repos\Arowolo_Delivery_Project\bin\Debug\net7.0\Microsoft.Extensions.Identity.Stores.dll
 C:\Users\arowo\source\repos\Arowolo_Delivery_Project\bin\Debug\net7.0\Microsoft.Extensions.Options.dll
+C:\Users\arowo\source\repos\Arowolo_Delivery_Project\bin\Debug\net7.0\Quartz.dll
+C:\Users\arowo\source\repos\Arowolo_Delivery_Project\bin\Debug\net7.0\Quartz.Extensions.DependencyInjection.dll
+C:\Users\arowo\source\repos\Arowolo_Delivery_Project\bin\Debug\net7.0\Quartz.Extensions.Hosting.dll

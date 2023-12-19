@@ -1,6 +1,8 @@
 
 using Arowolo_Delivery_Project.Data;
+using Arowolo_Delivery_Project.Models;
 using Arowolo_Delivery_Project.Services.DishService;
+using Arowolo_Delivery_Project.Services.UserService;
 using Microsoft.EntityFrameworkCore;
 
 namespace Arowolo_Delivery_Project
@@ -22,10 +24,22 @@ namespace Arowolo_Delivery_Project
 
 
             builder.Services.AddScoped<IDishService, DishService>();
+            builder.Services.AddScoped<IUserService, UserService>();
 
 
             //add automapper
             builder.Services.AddAutoMapper(typeof(Program).Assembly);
+
+            builder.Services.AddIdentity<User, Role>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = false;
+                options.Password.RequiredLength = 6;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireDigit = false;
+                options.Password.RequireNonAlphanumeric = false;
+            })
+                .AddEntityFrameworkStores<ApplicationDbContext>();
 
             var app = builder.Build();
 
