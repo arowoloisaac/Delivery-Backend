@@ -16,6 +16,7 @@ namespace Arowolo_Delivery_Project.Data
         public override DbSet<User> Users { get; set; }    
         public override DbSet<Role> Roles {  get; set; }
         public DbSet<LogoutToken> LogoutTokens { get; set; }
+        public DbSet<Basket> Baskets { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

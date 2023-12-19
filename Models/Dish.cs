@@ -14,5 +14,6 @@ namespace Arowolo_Delivery_Project.Models
         public string PhotoUrl { get; set; } = string.Empty;
 
         public ICollection<Rating>? RatingList { get; set; }
+        public ICollection<Basket> UserwithDish { get; set; } = new List<Basket>();
     }
 }
