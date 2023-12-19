@@ -11,6 +11,7 @@ namespace Arowolo_Delivery_Project.Data
         }
 
         public DbSet<Dish> Dishes { get; set; }
+        public DbSet<Rating> Rating { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

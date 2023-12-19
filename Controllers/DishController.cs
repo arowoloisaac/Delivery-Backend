@@ -32,21 +32,71 @@ namespace Arowolo_Delivery_Project.Controllers
                 return BadRequest(ex.Message);
             }
             
-
-            //return Ok(await _dishService.AddDishes(newDish));
         }
 
 
         [HttpGet("{id}")]
         public async Task<ActionResult<List<GetDishDto>>> GetDishById(Guid id)
         {
-            return Ok( await _dishService.GetDishById(id));
+            try
+            {
+                var dish = await _dishService.GetDishById(id);
+
+                if (dish is not null)
+                {
+                    return Ok(dish);
+                }
+
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+            
         }
 
-        [HttpGet("GetAllDish")]
-        public async Task<IActionResult> GetDishes(Category? category, bool? vegetarian, Sorting? sort, int? page)
+        [HttpGet]
+        public async Task<IActionResult> GetDishes([FromQuery] List<Category>? category, bool? vegetarian, Sorting? sort, int? page)
         {
             return Ok(await _dishService.GetDishes(category, vegetarian, sort, page));
+        }
+
+        [HttpGet("check")]
+        public async Task<IActionResult> GetDishs([FromQuery] List<Category> category, bool? vegetarian, Sorting? sort, int? page)
+        {
+            return Ok();
+        }
+
+        [HttpGet("{id}/check/rating")]
+        public async Task<IActionResult> CheckRating(Guid id)
+        {
+            return Ok(await _dishService.GetDishRating(id));
+        }
+
+
+        [HttpPost("rating")]
+        public async Task<IActionResult> PostRating(Guid id, int value)
+        {
+            try
+            {
+
+                if (value < 0 || value > 10)
+                {
+                    throw new Exception("Rating can't be less than Zero nor greater than 10");
+                }
+
+                return Ok(await _dishService.AddRating(id, value));
+            }
+
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            //return Ok(await _dishService.AddRating(id, value));
         }
 
     }

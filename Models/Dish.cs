@@ -12,5 +12,7 @@ namespace Arowolo_Delivery_Project.Models
         public Category Category { get; set; }
         public int Rating { get; set; }
         public string PhotoUrl { get; set; } = string.Empty;
+
+        public ICollection<Rating>? RatingList { get; set; }
     }
 }
