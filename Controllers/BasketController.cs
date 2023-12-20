@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Arowolo_Delivery_Project.Models;
+using Arowolo_Delivery_Project.Services.BasketService;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Arowolo_Delivery_Project.Controllers
@@ -7,7 +9,12 @@ namespace Arowolo_Delivery_Project.Controllers
     [ApiController]
     public class BasketController : ControllerBase
     {
+        private readonly IBasketService _basketService;
 
+        public BasketController(IBasketService basketService)
+        {
+            _basketService = basketService;
+        }
 
         [HttpGet]
         public async Task<IActionResult> GetBasket()
@@ -18,13 +25,15 @@ namespace Arowolo_Delivery_Project.Controllers
         [HttpPost("dish/{dishId}")]
         public async Task<IActionResult> AddToCart(Guid dishId)
         {
-            throw new NotImplementedException();
+            await _basketService.AddDishToCart(dishId);
+            return Ok();
         }
 
         [HttpDelete("dish/{dishId}")]
         public async Task<IActionResult> DeleteCart(Guid dishId, bool increase)
         {
-            throw new NotImplementedException();
+            await _basketService.DeleteDishInCart(dishId, increase);
+            return Ok();
         }
     }
 }

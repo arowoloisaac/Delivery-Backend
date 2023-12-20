@@ -18,6 +18,7 @@ namespace Arowolo_Delivery_Project.Models
         //public string PhoneNumber { get; set; } = string.Empty;
         //public string Password { get; set; }
 
+        public ICollection<Rating> Ratings { get; set; } = new List<Rating>();
         public ICollection<Basket> BasketList { get; set; } = new List<Basket>();
 
         public DateTime CreateDateTime { get; set; }

@@ -2,6 +2,7 @@ using Arowolo_Delivery_Project.Cofiguration;
 using Arowolo_Delivery_Project.Data;
 using Arowolo_Delivery_Project.Models;
 using Arowolo_Delivery_Project.Services.BackgroundJobs;
+using Arowolo_Delivery_Project.Services.BasketService;
 using Arowolo_Delivery_Project.Services.DishService;
 using Arowolo_Delivery_Project.Services.Initialization;
 using Arowolo_Delivery_Project.Services.TokenService;
@@ -35,12 +36,15 @@ namespace Arowolo_Delivery_Project
 
             builder.Services.AddScoped<IDishService, DishService>();
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IBasketService, BasketService>();
             builder.Services.AddScoped<ITokenStorageService, TokenDbStorageService>();
 
             //add automapper
-            builder.Services.AddAutoMapper(typeof(Program).Assembly);
+            //builder.Services.AddAutoMapper(typeof(Program).Assembly);
+            builder.Services.AddAutoMapper(typeof(AutoMapperConfiguration));
             builder.Host.UseNLog();
 
+            //builder.Services.AddHttpContextAccessor();
             builder.Services.AddIdentity<User, Role>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;
@@ -118,9 +122,8 @@ namespace Arowolo_Delivery_Project
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
-
             app.UseAuthentication();
+            app.UseAuthorization();
             await app.ConfigureIdentityAsync();
 
             app.MapControllers();

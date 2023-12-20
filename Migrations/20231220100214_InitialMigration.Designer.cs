@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Arowolo_Delivery_Project.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231219172026_addingBasketToDatabase")]
-    partial class addingBasketToDatabase
+    [Migration("20231220100214_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -114,6 +114,9 @@ namespace Arowolo_Delivery_Project.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("DishId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Value")

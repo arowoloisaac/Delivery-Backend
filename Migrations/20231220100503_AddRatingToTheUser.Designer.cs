@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Arowolo_Delivery_Project.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231217151407_LogoutUserToDb")]
-    partial class LogoutUserToDb
+    [Migration("20231220100503_AddRatingToTheUser")]
+    partial class AddRatingToTheUser
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,30 @@ namespace Arowolo_Delivery_Project.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Arowolo_Delivery_Project.Models.Basket", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("DishId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DishId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Baskets");
+                });
 
             modelBuilder.Entity("Arowolo_Delivery_Project.Models.Dish", b =>
                 {
@@ -92,12 +116,17 @@ namespace Arowolo_Delivery_Project.Migrations
                     b.Property<Guid>("DishId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("Value")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("DishId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Rating");
                 });
@@ -331,11 +360,32 @@ namespace Arowolo_Delivery_Project.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Arowolo_Delivery_Project.Models.Basket", b =>
+                {
+                    b.HasOne("Arowolo_Delivery_Project.Models.Dish", null)
+                        .WithMany("UserwithDish")
+                        .HasForeignKey("DishId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Arowolo_Delivery_Project.Models.User", null)
+                        .WithMany("BasketList")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Arowolo_Delivery_Project.Models.Rating", b =>
                 {
                     b.HasOne("Arowolo_Delivery_Project.Models.Dish", null)
                         .WithMany("RatingList")
                         .HasForeignKey("DishId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Arowolo_Delivery_Project.Models.User", null)
+                        .WithMany("RatingList")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -393,6 +443,15 @@ namespace Arowolo_Delivery_Project.Migrations
 
             modelBuilder.Entity("Arowolo_Delivery_Project.Models.Dish", b =>
                 {
+                    b.Navigation("RatingList");
+
+                    b.Navigation("UserwithDish");
+                });
+
+            modelBuilder.Entity("Arowolo_Delivery_Project.Models.User", b =>
+                {
+                    b.Navigation("BasketList");
+
                     b.Navigation("RatingList");
                 });
 #pragma warning restore 612, 618

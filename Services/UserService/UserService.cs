@@ -25,7 +25,7 @@ namespace Arowolo_Delivery_Project.Services.UserService
         public async Task EditProfile(EditUserDto request)
         {
             var existingUser = await _userManager.Users.FirstOrDefaultAsync( x => x.FullName.ToLower() == request.FullName.ToLower() );
-
+            
             if (existingUser is not null)
             {
                 existingUser.Address = request.Address;

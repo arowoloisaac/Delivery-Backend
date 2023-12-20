@@ -113,12 +113,17 @@ namespace Arowolo_Delivery_Project.Migrations
                     b.Property<Guid>("DishId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("Value")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("DishId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Rating");
                 });
@@ -374,6 +379,12 @@ namespace Arowolo_Delivery_Project.Migrations
                         .HasForeignKey("DishId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Arowolo_Delivery_Project.Models.User", null)
+                        .WithMany("RatingList")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -437,6 +448,8 @@ namespace Arowolo_Delivery_Project.Migrations
             modelBuilder.Entity("Arowolo_Delivery_Project.Models.User", b =>
                 {
                     b.Navigation("BasketList");
+
+                    b.Navigation("RatingList");
                 });
 #pragma warning restore 612, 618
         }

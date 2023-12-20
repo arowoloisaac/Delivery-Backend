@@ -5,21 +5,21 @@
 namespace Arowolo_Delivery_Project.Migrations
 {
     /// <inheritdoc />
-    public partial class AddRatingToDish : Migration
+    public partial class AddRatingToTheUser : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateIndex(
-                name: "IX_Rating_DishId",
+                name: "IX_Rating_UserId",
                 table: "Rating",
-                column: "DishId");
+                column: "UserId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Rating_Dishes_DishId",
+                name: "FK_Rating_AspNetUsers_UserId",
                 table: "Rating",
-                column: "DishId",
-                principalTable: "Dishes",
+                column: "UserId",
+                principalTable: "AspNetUsers",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
         }
@@ -28,11 +28,11 @@ namespace Arowolo_Delivery_Project.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Rating_Dishes_DishId",
+                name: "FK_Rating_AspNetUsers_UserId",
                 table: "Rating");
 
             migrationBuilder.DropIndex(
-                name: "IX_Rating_DishId",
+                name: "IX_Rating_UserId",
                 table: "Rating");
         }
     }
