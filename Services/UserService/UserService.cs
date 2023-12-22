@@ -22,6 +22,32 @@ namespace Arowolo_Delivery_Project.Services.UserService
             _bearerTokenSettings = jwtTokenOptions.Value;
         }
 
+
+
+        /*public async Task<UserProfileDto> EditProfile(EditUserDto request)
+        {
+            var getIdFromProfile = new UserProfileDto();
+            var existingUser = await _userManager.FindByIdAsync(getIdFromProfile.Id.ToString());
+
+            if (existingUser is not null)
+            {
+                existingUser.Address = request.Address;
+                existingUser.BirthDate = request.BirthDate;
+                existingUser.PhoneNumber = request.PhoneNumber;
+                existingUser.Gender = request.Gender;
+                existingUser.FullName = request.FullName;
+
+                var updateUser = await _userManager.UpdateAsync(existingUser);
+                //UserProfileDto userProfileDto = await _userManager.UpdateAsync(existingUser);
+                if (!updateUser.Succeeded)
+                {
+                    throw new Exception("Failed to update user profile");
+                }
+            }
+
+            throw new ArgumentNullException("No Active user");
+        }*/
+
         public async Task EditProfile(EditUserDto request)
         {
             var existingUser = await _userManager.Users.FirstOrDefaultAsync( x => x.FullName.ToLower() == request.FullName.ToLower() );
@@ -75,7 +101,7 @@ namespace Arowolo_Delivery_Project.Services.UserService
                 throw new InvalidOperationException("Login Failed");
             }
 
-            var role = await _userManager.IsInRoleAsync(user, ApplicationRoleNames.Administrator);
+            var role = await _userManager.IsInRoleAsync(user, ApplicationRoleNames.User);
             return GenerateToken(user, role);
         }
 
@@ -134,7 +160,7 @@ namespace Arowolo_Delivery_Project.Services.UserService
                     new Claim(ClaimTypes.Email, user.Email),
                     new Claim(ClaimTypes.Name, user.FullName),
                     new Claim(ClaimTypes.Authentication, user.Id.ToString()),
-                    new Claim(ClaimTypes.Role, isAdmin ? ApplicationRoleNames.Administrator : ApplicationRoleNames.User)
+                    //new Claim(ClaimTypes.Role, isAdmin ? ApplicationRoleNames.Administrator : ApplicationRoleNames.User)
                 }),
                 Expires = DateTime.UtcNow.AddSeconds(_bearerTokenSettings.ExpiryTimeInSeconds),
                 SigningCredentials =

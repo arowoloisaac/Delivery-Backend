@@ -61,11 +61,11 @@ namespace Arowolo_Delivery_Project
                 options.AddPolicy(ApplicationRoleNames.User,
                     new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build());
 
-                options.AddPolicy(ApplicationRoleNames.Administrator, new AuthorizationPolicyBuilder()
+                /*options.AddPolicy(ApplicationRoleNames.Administrator, new AuthorizationPolicyBuilder()
                     .RequireAuthenticatedUser()
                     .RequireRole(ApplicationRoleNames.Administrator)
                     .RequireClaim(ClaimTypes.Role, ApplicationRoleNames.Administrator)
-                    .Build());
+                    .Build());*/
             });
 
 

@@ -10,6 +10,8 @@ namespace Arowolo_Delivery_Project.Services.UserService
         
         Task<string> Login(LoginUserDto request);
 
+        //Task<UserProfileDto> EditProfile(EditUserDto request);
+
         Task EditProfile(EditUserDto request);
     }
 }

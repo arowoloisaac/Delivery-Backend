@@ -12,7 +12,7 @@ namespace Arowolo_Delivery_Project.Services.Initialization
             var userManager = serviceScope.ServiceProvider.GetService<UserManager<User>>();
             var roleManager = serviceScope.ServiceProvider.GetService<RoleManager<Role>>();
 
-            var config = app.Configuration.GetSection("AdminCredentials");
+            /*var config = app.Configuration.GetSection("AdminCredentials");
             // Creation of role
             var adminRole = await roleManager.FindByNameAsync(ApplicationRoleNames.Administrator);
             if (adminRole == null)
@@ -54,7 +54,7 @@ namespace Arowolo_Delivery_Project.Services.Initialization
             if (!await userManager.IsInRoleAsync(adminUser, adminRole.Name))
             {
                 await userManager.AddToRoleAsync(adminUser, adminRole.Name);
-            }
+            }*/
         }
     }
 }

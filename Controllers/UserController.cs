@@ -43,7 +43,7 @@ namespace Arowolo_Delivery_Project.Controllers
         }
 
         [HttpGet("profile")]
-        [Authorize(Policy = ApplicationRoleNames.Administrator)]
+        [Authorize]
         public async Task<ActionResult<UserProfileDto>> GetUserProfile() 
         {  
             try
@@ -73,10 +73,10 @@ namespace Arowolo_Delivery_Project.Controllers
         [Authorize]
         public async Task<IActionResult> EditProfile(EditUserDto model)
         {
-            if (!ModelState.IsValid)
+            /*if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
-            }
+            }*/
             try
             {
                 var user = User.Identity!.IsAuthenticated;
