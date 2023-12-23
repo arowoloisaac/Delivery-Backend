@@ -11,10 +11,12 @@ namespace Arowolo_Delivery_Project.Services.DishService
 
         Task<List<GetDishDto>> AddDishes(AddDishDto newDish);
 
-        Task<ServiceResponses> GetDishes([FromQuery] List<Category>? category, bool? vegetarian, Sorting? sort, int? page);
+        //Task<ServiceResponses> GetDishes(Category? category, bool? vegetarian, Sorting? sort, int? page);
 
         Task<bool> GetDishRating(Guid dishId);
 
         Task<RatingDto> AddRating(Guid dishId, int value);
+
+        Task<ServiceResponses> GetDishes([FromQuery] List<Category>? category, bool? vegetarian, Sorting? sort, int? page);
     }
 }

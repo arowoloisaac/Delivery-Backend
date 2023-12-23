@@ -93,5 +93,12 @@ namespace Arowolo_Delivery_Project.Controllers
             }
         }
 
+        /*[HttpGet("test")]
+        public async Task<IActionResult> GetDish([FromQuery] List<Category>? category, bool? vegetarian, Sorting? sort, int? page)
+        {
+            var result = await _dishService.GetDishes(category, vegetarian, sort, page);
+            return Ok(result);        
+        }*/
+
     }
 }

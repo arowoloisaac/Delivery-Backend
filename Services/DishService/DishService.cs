@@ -53,7 +53,98 @@ namespace Arowolo_Delivery_Project.Services.DishService
             return _mapper.Map<GetDishDto>(dish);
         }
 
+
         public async Task<ServiceResponses> GetDishes([FromQuery] List<Category>? category, bool? vegetarian, Sorting? sort, int? page)
+        {
+            IQueryable<Dish> query = _context.Dishes;
+
+            if (category != null && category.Any())
+            {
+                query = query.Where(d => category.Contains(d.Category));
+            }
+            
+
+            if (vegetarian.HasValue)
+            {
+                query = query.Where(d => d.IsVegetarian == vegetarian);
+            }
+
+            // Apply sorting if provided
+            if (sort != null)
+            {
+                switch (sort)
+                {
+                    case Sorting.NameAsc:
+                        query = query.OrderBy(d => d.Name);
+                        break;
+                    case Sorting.NameDesc:
+                        query = query.OrderByDescending(d => d.Name);
+                        break;
+                        // Add other sorting cases as needed
+                }
+            }
+
+            int pageResult = 5;
+            int currentPage = page.HasValue && page > 0 ? page.Value : 1;
+
+            int totalItems = await query.CountAsync();
+            int pageCount = (int)Math.Ceiling((double)totalItems / pageResult);
+
+            var dishes = await query.Skip((currentPage - 1) * pageResult)
+                                    .Take(pageResult)
+                                    .ToListAsync();
+
+            var mappedDishes = _mapper.Map<IEnumerable<GetDishDto>>(dishes);
+
+            var response = new ServiceResponses(mappedDishes.ToList(), currentPage, totalItems, pageCount);
+            return response;
+        }
+
+
+        
+        //for checking rating 
+        public async Task<bool> GetDishRating(Guid dishId)
+        {
+            var dishRating = await _context.Rating.AnyAsync( rating => rating.DishId == dishId);
+
+            return dishRating;
+        }
+
+
+        //for adding rating to the dish
+        public async Task<RatingDto> AddRating(Guid dishId, int ratingScore)
+        {
+            var dishes = await _context.Dishes.FirstOrDefaultAsync(dish => dish.Id == dishId);
+
+            if (dishes is null)
+            {
+                throw new ArgumentNullException("Dish not found");
+            }
+
+            var newRating = new RatingDto
+            {
+                DishId = dishId,
+                Value = ratingScore
+            };
+
+            _context.Rating.Add(_mapper.Map<Rating>(newRating));
+            await _context.SaveChangesAsync();
+
+            return newRating;
+        }
+
+    }
+}
+
+
+
+
+
+
+
+
+/* 
+ public async Task<ServiceResponses> GetDish(Category? category, bool? vegetarian, Sorting? sort, int? page)
         {
             IEnumerable<Dish> checkdish = await _context.Dishes.ToListAsync();
             IEnumerable<GetDishDto> filteredDishes = _mapper.Map<IEnumerable<GetDishDto>>(checkdish);
@@ -69,8 +160,8 @@ namespace Arowolo_Delivery_Project.Services.DishService
                 // filtereing for category
                 if ((category != null && vegetarian == null && sort == null && page == null) || (category != null && vegetarian == null && sort == null && page != null))
                 {
-                    //filteredDishes = filteredDishes.Where(filter => filter.Category == category);
-                    filteredDishes = filteredDishes.Where(filter => category.Contains(filter.Category));
+                    filteredDishes = filteredDishes.Where(filter => filter.Category == category);
+                    //filteredDishes = filteredDishes.Where(filter => category.Contains(filter.Category));
                     var dish = filteredDishes.Skip((currentPage - 1) * pageResult).Take(pageResult).ToList();
                     
                     totalItems = dish.Count();
@@ -85,8 +176,8 @@ namespace Arowolo_Delivery_Project.Services.DishService
                 // filtereing for category, isVegetarian
                 else if ((category != null && vegetarian != null && sort == null && page == null) || (category != null && vegetarian != null && sort == null && page != null))
                 {
-                    filteredDishes = filteredDishes.Where((filter) => category.Contains(filter.Category));
-                    //filteredDishes = filteredDishes.Where(filter => filter.Category == category);
+                    //filteredDishes = filteredDishes.Where((filter) => category.Contains(filter.Category));
+                    filteredDishes = filteredDishes.Where(filter => filter.Category == category);
                     filteredDishes = filteredDishes.Where(filter => filter.IsVegetarian == vegetarian);
 
                     var dish = filteredDishes.Skip((currentPage -1) * pageResult).Take(pageResult).ToList();
@@ -101,10 +192,12 @@ namespace Arowolo_Delivery_Project.Services.DishService
                 }
 
                 // filtereing for category, isVegetarian, sort
-                else if (category != null && vegetarian != null && sort != null && page == null)
+                //else if (category != null && vegetarian != null && sort != null && page == null)
+                else if ((category != null && vegetarian != null && sort != null && page == null) || (category != null && vegetarian != null && sort != null && page != null))
                 {
                     //var allCategories = category.SelectMany(c => c).ToList();
-                    filteredDishes = filteredDishes.Where(filter => category.Contains(filter.Category));
+                    //filteredDishes = filteredDishes.Where(filter => category.Contains(filter.Category));
+                    filteredDishes = filteredDishes.Where(filter => filter.Category == category);
                     filteredDishes = filteredDishes.Where(filter => filter.IsVegetarian == vegetarian);
 
                     switch(sort)
@@ -266,7 +359,7 @@ namespace Arowolo_Delivery_Project.Services.DishService
                 if(category != null && vegetarian != null && sort != null && page != null)
                 {
                     //var allCategories = category.SelectMany(c => c).ToList();
-                    filteredDishes = filteredDishes.Where(filter => category.Contains(filter.Category));
+                    filteredDishes = filteredDishes.Where(filter => filter.Category == category);
                     filteredDishes = filteredDishes.Where(filter => filter.IsVegetarian == vegetarian);
 
                     switch (sort)
@@ -311,37 +404,5 @@ namespace Arowolo_Delivery_Project.Services.DishService
             throw new Exception("Bad request");
         }
 
-
-        //for checking rating 
-        public async Task<bool> GetDishRating(Guid dishId)
-        {
-            var dishRating = await _context.Rating.AnyAsync( rating => rating.DishId == dishId);
-
-            return dishRating;
-        }
-
-
-        //for adding rating to the dish
-        public async Task<RatingDto> AddRating(Guid dishId, int ratingScore)
-        {
-            var dishes = await _context.Dishes.FirstOrDefaultAsync(dish => dish.Id == dishId);
-
-            if (dishes is null)
-            {
-                throw new ArgumentNullException("Dish not found");
-            }
-
-            var newRating = new RatingDto
-            {
-                DishId = dishId,
-                Value = ratingScore
-            };
-
-            _context.Rating.Add(_mapper.Map<Rating>(newRating));
-            await _context.SaveChangesAsync();
-
-            return newRating;
-        }
-
-    }
-}
+ 
+ */
