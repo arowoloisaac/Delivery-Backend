@@ -12,6 +12,6 @@ namespace Arowolo_Delivery_Project.Services.UserService
 
         //Task<UserProfileDto> EditProfile(EditUserDto request);
 
-        Task EditProfile(EditUserDto request);
+        Task EditProfile(EditUserDto request, string Id);
     }
 }

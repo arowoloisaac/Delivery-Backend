@@ -48,10 +48,15 @@ namespace Arowolo_Delivery_Project.Services.UserService
             throw new ArgumentNullException("No Active user");
         }*/
 
-        public async Task EditProfile(EditUserDto request)
+        public async Task EditProfile(EditUserDto request, string Id)
         {
-            var existingUser = await _userManager.Users.FirstOrDefaultAsync( x => x.FullName.ToLower() == request.FullName.ToLower() );
-            
+            //var existingUser = await _userManager.Users.FirstOrDefaultAsync( x => x.FullName.ToLower() == request.FullName.ToLower() );
+
+
+            //var existingUser = await _userManager.FirstOrDefaultAsync(x => x.FullName.ToLower() == request.FullName.ToLower());
+            //var existingUser = await _userManager.FindByIdAsync( x => x.id == Id );
+            var existingUser = await _userManager.FindByIdAsync(Id);
+
             if (existingUser is not null)
             {
                 existingUser.Address = request.Address;
@@ -61,7 +66,7 @@ namespace Arowolo_Delivery_Project.Services.UserService
                 existingUser.FullName = request.FullName;
 
                 var updateUser = await _userManager.UpdateAsync(existingUser);
-
+                
                 if (!updateUser.Succeeded)
                 {
                     throw new Exception("Failed to update user profile");
@@ -159,6 +164,7 @@ namespace Arowolo_Delivery_Project.Services.UserService
                 {
                     new Claim(ClaimTypes.Email, user.Email),
                     new Claim(ClaimTypes.Name, user.FullName),
+                    //new Claim(ClaimTypes.)
                     new Claim(ClaimTypes.Authentication, user.Id.ToString()),
                     //new Claim(ClaimTypes.Role, isAdmin ? ApplicationRoleNames.Administrator : ApplicationRoleNames.User)
                 }),

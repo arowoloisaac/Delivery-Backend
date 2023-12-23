@@ -1,10 +1,12 @@
 ﻿using Arowolo_Delivery_Project.Cofiguration;
 using Arowolo_Delivery_Project.Dtos.UserDtos;
+using Arowolo_Delivery_Project.Models;
 using Arowolo_Delivery_Project.Services.TokenService;
 using Arowolo_Delivery_Project.Services.UserService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using System.Security.Claims;
 
 namespace Arowolo_Delivery_Project.Controllers
@@ -73,14 +75,14 @@ namespace Arowolo_Delivery_Project.Controllers
         [Authorize]
         public async Task<IActionResult> EditProfile(EditUserDto model)
         {
-            /*if (!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
-            }*/
+            }
             try
-            {
-                var user = User.Identity!.IsAuthenticated;
-                await _userService.EditProfile(model);
+            {                
+                var userIdClaim = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Authentication);
+                await _userService.EditProfile(model, userIdClaim.Value);
                 return Ok();
             }
 
@@ -89,6 +91,7 @@ namespace Arowolo_Delivery_Project.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginUserDto model)

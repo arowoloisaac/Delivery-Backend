@@ -102,8 +102,9 @@ namespace Arowolo_Delivery_Project
                 {
                     ValidAudience = jwtConfiguration.Audience,
                     ValidIssuer = jwtConfiguration.Issuer,
-                    IssuerSigningKey = new SymmetricSecurityKey(key)
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
                 };
+                
             });
 
             var app = builder.Build();
