@@ -15,7 +15,7 @@ namespace Arowolo_Delivery_Project.Services.DishService
 
         Task<bool> GetDishRating(Guid dishId);
 
-        Task<RatingDto> AddRating(Guid dishId, int value);
+        Task<Rating> AddRating(Guid dishId, int value, string UserId);
 
         Task<ServiceResponses> GetDishes([FromQuery] List<Category>? category, bool? vegetarian, Sorting? sort, int? page);
     }

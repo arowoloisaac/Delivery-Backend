@@ -4,6 +4,7 @@ using Arowolo_Delivery_Project.Enums;
 using Arowolo_Delivery_Project.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
@@ -14,11 +15,13 @@ namespace Arowolo_Delivery_Project.Services.DishService
     {
         private readonly IMapper _mapper;
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<User> _userManager;
 
-        public DishService(IMapper mapper, ApplicationDbContext context)
+        public DishService(IMapper mapper, ApplicationDbContext context, UserManager<User> userManager)
         {
             _mapper = mapper;
             _context = context;
+            _userManager = userManager;
         }
 
 
@@ -69,7 +72,6 @@ namespace Arowolo_Delivery_Project.Services.DishService
                 query = query.Where(d => d.IsVegetarian == vegetarian);
             }
 
-            // Apply sorting if provided
             if (sort != null)
             {
                 switch (sort)
@@ -79,8 +81,19 @@ namespace Arowolo_Delivery_Project.Services.DishService
                         break;
                     case Sorting.NameDesc:
                         query = query.OrderByDescending(d => d.Name);
+                        break;                     
+                    case Sorting.PriceAsc:
+                        query = query.OrderBy(filterBy => filterBy.Price);
                         break;
-                        // Add other sorting cases as needed
+                    case Sorting.PriceDesc:
+                        query = query.OrderByDescending(filterBy => filterBy.Price);
+                        break;
+                    case Sorting.RatingAsc:
+                        query = query.OrderBy(filterBy => filterBy.Rating);
+                        break;
+                    case Sorting.RatingDesc:
+                        query = query.OrderByDescending(filterBy => filterBy.Rating);
+                        break;
                 }
             }
 
@@ -112,25 +125,32 @@ namespace Arowolo_Delivery_Project.Services.DishService
 
 
         //for adding rating to the dish
-        public async Task<RatingDto> AddRating(Guid dishId, int ratingScore)
+        public async Task<Rating> AddRating(Guid dishId, int ratingScore, string UserId)
         {
             var dishes = await _context.Dishes.FirstOrDefaultAsync(dish => dish.Id == dishId);
+            var existingUser = await _userManager.FindByIdAsync(UserId);
 
-            if (dishes is null)
+            /*if (dishes is null || existingUser == null)
             {
-                throw new ArgumentNullException("Dish not found");
-            }
+                throw new ArgumentNullException("Dish or user not found");
+            }*/
 
-            var newRating = new RatingDto
+            var newRating = new Rating
             {
                 DishId = dishId,
-                Value = ratingScore
+                Value = ratingScore,
+                //UserId = Guid.Parse(UserId)
+                UserId = existingUser.Id
             };
 
-            _context.Rating.Add(_mapper.Map<Rating>(newRating));
+            //_context.Rating.Add(_mapper.Map<Rating>(newRating));
+            _context.Rating.Add(newRating);
             await _context.SaveChangesAsync();
 
             return newRating;
+            //var ratingDto = _mapper.Map<RatingDto>(newRating);
+
+            //return ratingDto;
         }
 
     }

@@ -2,9 +2,11 @@
 using Arowolo_Delivery_Project.Enums;
 using Arowolo_Delivery_Project.Models;
 using Arowolo_Delivery_Project.Services.DishService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Arowolo_Delivery_Project.Controllers
 {
@@ -62,7 +64,22 @@ namespace Arowolo_Delivery_Project.Controllers
         [HttpGet]
         public async Task<IActionResult> GetDishes([FromQuery] List<Category>? category, bool? vegetarian, Sorting? sort, int? page)
         {
-            return Ok(await _dishService.GetDishes(category, vegetarian, sort, page));
+            try
+            {
+                var dishes = await _dishService.GetDishes(category, vegetarian, sort, page);
+
+                if (dishes is not null)
+                {
+                    return Ok(dishes);
+                }
+
+                else { return NotFound(); }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+            
         }
 
 
@@ -74,17 +91,19 @@ namespace Arowolo_Delivery_Project.Controllers
 
 
         [HttpPost("rating")]
+        [Authorize]
+        //public async Task<IActionResult> PostRating(Guid id, int value)
         public async Task<IActionResult> PostRating(Guid id, int value)
         {
             try
             {
-
+                var UserId = User.Claims.FirstOrDefault( x => x.Type == ClaimTypes.Authentication );
                 if (value < 0 || value > 10)
                 {
                     throw new Exception("Rating can't be less than Zero nor greater than 10");
                 }
 
-                return Ok(await _dishService.AddRating(id, value));
+                return Ok(await _dishService.AddRating(id, value, UserId.Value));
             }
 
             catch (Exception ex)
