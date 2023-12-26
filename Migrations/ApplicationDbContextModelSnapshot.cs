@@ -43,7 +43,7 @@ namespace Arowolo_Delivery_Project.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Baskets");
+                    b.ToTable("Baskets", (string)null);
                 });
 
             modelBuilder.Entity("Arowolo_Delivery_Project.Models.Dish", b =>
@@ -78,7 +78,7 @@ namespace Arowolo_Delivery_Project.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Dishes");
+                    b.ToTable("Dishes", (string)null);
                 });
 
             modelBuilder.Entity("Arowolo_Delivery_Project.Models.LogoutToken", b =>
@@ -101,7 +101,7 @@ namespace Arowolo_Delivery_Project.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("LogoutTokens");
+                    b.ToTable("LogoutTokens", (string)null);
                 });
 
             modelBuilder.Entity("Arowolo_Delivery_Project.Models.Rating", b =>
@@ -125,7 +125,7 @@ namespace Arowolo_Delivery_Project.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Rating");
+                    b.ToTable("Rating", (string)null);
                 });
 
             modelBuilder.Entity("Arowolo_Delivery_Project.Models.Role", b =>

@@ -21,6 +21,17 @@ namespace Arowolo_Delivery_Project.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+
+            /*modelBuilder.Entity<Basket>()
+           .HasOne(dc => dc.User)
+           .WithMany()
+           .HasForeignKey(dc => dc.UserId);
+
+            modelBuilder.Entity<Basket>()
+                .HasOne(dc => dc.Dish)
+                .WithMany()
+                .HasForeignKey(dc => dc.DishId);*/
         }
     }
 }

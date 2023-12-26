@@ -50,11 +50,6 @@ namespace Arowolo_Delivery_Project.Services.UserService
 
         public async Task EditProfile(EditUserDto request, string Id)
         {
-            //var existingUser = await _userManager.Users.FirstOrDefaultAsync( x => x.FullName.ToLower() == request.FullName.ToLower() );
-
-
-            //var existingUser = await _userManager.FirstOrDefaultAsync(x => x.FullName.ToLower() == request.FullName.ToLower());
-            //var existingUser = await _userManager.FindByIdAsync( x => x.id == Id );
             var existingUser = await _userManager.FindByIdAsync(Id);
 
             if (existingUser is not null)
@@ -97,7 +92,7 @@ namespace Arowolo_Delivery_Project.Services.UserService
             };
         }
 
-        public async Task<string> Login(LoginUserDto request)
+        public async Task<tokenResponse> Login(LoginUserDto request)
         {
             var user = await ValidateUser(request);
 
@@ -107,10 +102,12 @@ namespace Arowolo_Delivery_Project.Services.UserService
             }
 
             var role = await _userManager.IsInRoleAsync(user, ApplicationRoleNames.User);
-            return GenerateToken(user, role);
+            var token = GenerateToken(user);
+
+            return new tokenResponse(token);
         }
 
-        public async Task Register(RegisterUserDto request)
+        public async Task<tokenResponse> Register(RegisterUserDto request)
         {
             var existingUser = await _userManager.FindByEmailAsync(request.Email);
 
@@ -127,6 +124,7 @@ namespace Arowolo_Delivery_Project.Services.UserService
                 PhoneNumber = request.PhoneNumber,
                 BirthDate = request.BirthdDate,
                 Address = request.Address,
+                Gender = request.Gender,
             };
 
             var saveUser = await _userManager.CreateAsync(identityUser, request.Password);
@@ -135,6 +133,11 @@ namespace Arowolo_Delivery_Project.Services.UserService
             {
                 throw new Exception($"Failed to validate user {request.Email}");
             }
+
+            var token = GenerateToken(identityUser);
+
+            return new tokenResponse(token);
+
         }
 
 
@@ -153,7 +156,7 @@ namespace Arowolo_Delivery_Project.Services.UserService
         }
 
 
-        private string GenerateToken(User user, bool isAdmin)
+        private string GenerateToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_bearerTokenSettings.SecretKey);

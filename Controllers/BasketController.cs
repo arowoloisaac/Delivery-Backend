@@ -2,6 +2,7 @@
 using Arowolo_Delivery_Project.Services.BasketService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Arowolo_Delivery_Project.Controllers
 {
@@ -19,20 +20,25 @@ namespace Arowolo_Delivery_Project.Controllers
         [HttpGet]
         public async Task<IActionResult> GetBasket()
         {
-            throw new NotImplementedException();
+            var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Authentication);
+            //await _basketService.GetBasket(userId.Value);
+            return Ok(await _basketService.GetBasket(userId.Value));
         }
 
         [HttpPost("dish/{dishId}")]
         public async Task<IActionResult> AddToCart(Guid dishId)
         {
-            await _basketService.AddDishToCart(dishId);
+            var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Authentication);
+            await _basketService.AddDishToCart(dishId, userId.Value);
             return Ok();
         }
+
 
         [HttpDelete("dish/{dishId}")]
         public async Task<IActionResult> DeleteCart(Guid dishId, bool increase)
         {
-            await _basketService.DeleteDishInCart(dishId, increase);
+            var userId = User.Claims.FirstOrDefault( x => x.Type == ClaimTypes.Authentication);
+            await _basketService.DeleteDishInCart(dishId, increase, userId.Value);
             return Ok();
         }
     }

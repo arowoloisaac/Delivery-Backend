@@ -139,7 +139,6 @@ namespace Arowolo_Delivery_Project.Services.DishService
             {
                 DishId = dishId,
                 Value = ratingScore,
-                //UserId = Guid.Parse(UserId)
                 UserId = existingUser.Id
             };
 
