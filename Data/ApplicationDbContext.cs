@@ -17,21 +17,11 @@ namespace Arowolo_Delivery_Project.Data
         public override DbSet<Role> Roles {  get; set; }
         public DbSet<LogoutToken> LogoutTokens { get; set; }
         public DbSet<Basket> Baskets { get; set; }
+        public DbSet<Order> Order { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-
-            /*modelBuilder.Entity<Basket>()
-           .HasOne(dc => dc.User)
-           .WithMany()
-           .HasForeignKey(dc => dc.UserId);
-
-            modelBuilder.Entity<Basket>()
-                .HasOne(dc => dc.Dish)
-                .WithMany()
-                .HasForeignKey(dc => dc.DishId);*/
         }
     }
 }

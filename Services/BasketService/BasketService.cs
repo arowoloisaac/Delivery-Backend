@@ -33,7 +33,7 @@ namespace Arowolo_Delivery_Project.Services.BasketService
                 throw new Exception("Dish with id doesn't exist");
             }
 
-            var dishInCart = await _context.Baskets.FirstOrDefaultAsync(dishInCart => dishInCart.DishId == dishId && dishInCart.UserId == currentUser.Id);
+            var dishInCart = await _context.Baskets.FirstOrDefaultAsync(dishInCart => dishInCart.Dish.Id == dishId && dishInCart.User.Id == currentUser.Id && dishInCart.Order.Id == null);
 
             if (dishInCart != null)
             {
@@ -43,9 +43,9 @@ namespace Arowolo_Delivery_Project.Services.BasketService
             {
                 var addToCart = new Basket
                 {
-                    DishId = dishId,
+                    Dish = dish,
                     Count = 1,
-                    UserId = currentUser.Id,
+                    User = currentUser,
                 };
                 _context.Baskets.Add(addToCart);
             }
@@ -70,7 +70,7 @@ namespace Arowolo_Delivery_Project.Services.BasketService
                 throw new Exception("Dish doesn't exist");
             }
 
-            var dishInCart = await _context.Baskets.FirstOrDefaultAsync(dishInCart => dishInCart.DishId == dishId && dishInCart.UserId == currentUser.Id);
+            var dishInCart = await _context.Baskets.FirstOrDefaultAsync(dishInCart => dishInCart.Dish.Id == dishId && dishInCart.User.Id == currentUser.Id);
 
             if (dishInCart != null)
             {
@@ -99,7 +99,7 @@ namespace Arowolo_Delivery_Project.Services.BasketService
                 return new List<DishBasketDto>();
             }
 
-            var dishInCartList = await _context.Baskets.Where( basket => basket.UserId == currentUser.Id ).Include( basket => basket.Dish ).ToListAsync();
+            var dishInCartList = await _context.Baskets.Where( basket => basket.User.Id == currentUser.Id ).Include( basket => basket.Dish ).ToListAsync();
 
             var cartList = dishInCartList.Select(basket => new DishBasketDto
             {

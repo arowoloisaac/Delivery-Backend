@@ -1,4 +1,6 @@
-﻿namespace Arowolo_Delivery_Project.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Arowolo_Delivery_Project.Models
 {
     public class Basket
     {
@@ -6,14 +8,11 @@
 
         public int Count { get; set; }
 
+        public Dish Dish { get; set; }
 
-        public Guid DishId { get; set; } // just for test run
+        public Order? Order { get; set; }
 
-        public Guid UserId { get; set; }
-
-        public Dish? Dish { get; set; }
-
-        public virtual User User { get; set; }
+        public User User { get; set; }
 
     }
 }

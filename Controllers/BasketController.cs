@@ -6,7 +6,7 @@ using System.Security.Claims;
 
 namespace Arowolo_Delivery_Project.Controllers
 {
-    [Route("api/[controller]")]
+    /*[Route("api/[controller]")]
     [ApiController]
     public class BasketController : ControllerBase
     {
@@ -41,5 +41,5 @@ namespace Arowolo_Delivery_Project.Controllers
             await _basketService.DeleteDishInCart(dishId, increase, userId.Value);
             return Ok();
         }
-    }
+    }*/
 }
