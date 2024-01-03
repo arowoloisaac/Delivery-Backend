@@ -23,9 +23,25 @@ namespace Arowolo_Delivery_Project.Services.OrderService
         }
 
 
-        public Task ConfirmOrder(Guid OrderId, string UserId)
+        public async Task ConfirmOrder(Guid OrderId, string UserId)
         {
-            throw new NotImplementedException();
+            var currentUser = await _userManager.FindByIdAsync(UserId);
+
+            if (currentUser == null)
+            {
+                throw new Exception("User is not active");
+            }
+
+            var order = await _context.Order.FirstOrDefaultAsync( order => order.Id == OrderId);
+
+            if (order == null)
+            {
+                throw new ArgumentNullException("Order can't be found");
+            }
+
+            order.Status = Status.Delivered;
+
+            await _context.SaveChangesAsync();
         }
 
         public async Task<List<GetOrderInfoDto>> GetOrder(string UserId)
@@ -81,21 +97,7 @@ namespace Arowolo_Delivery_Project.Services.OrderService
             }).ToList();
 
             getOrder.Dishes = cartList;
-            return getOrder;
-            //getOrder.Dishes = _mapper.Map<List<DishBasketDto>>(order.Baskets);
-            //return getOrder;
-            /*var getOrder = new GetOrderDto
-            {
-                Id = order.Id,
-                OrderTime = order.OrderTime,
-                DeliveryTime = order.DeliveryTime,
-                Status = order.Status,
-                Price = order.Price,
-                Address = order.Address,
-            };
-
-            return getOrder;*/
-        }
+            return getOrder;        }
 
         public async Task PostOrder(CreateOrderDto model, string UserId)
         {
@@ -127,11 +129,6 @@ namespace Arowolo_Delivery_Project.Services.OrderService
                 Price = totalPrice,
             };
 
-            //_context.Order.Add(newOrder);
-            // probably add the orderid to the basket to update it 
-            //await _context.SaveChangesAsync();
-
-
             foreach (var item in userBasket)
             {
                 item.Order = newOrder;
@@ -141,7 +138,6 @@ namespace Arowolo_Delivery_Project.Services.OrderService
             _context.Order.Add(newOrder);
             // probably add the orderid to the basket to update it 
             await _context.SaveChangesAsync();
-
         }
     }
 }

@@ -59,7 +59,18 @@ namespace Arowolo_Delivery_Project.Controllers
         [HttpPost("{id}/status")]
         public async Task<IActionResult> OrderStatus(Guid id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Authentication);
+                await _orderService.ConfirmOrder(id, userId.Value);
+
+                return Ok();
+            }
+
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);    
+            }
         }
     }
 }
