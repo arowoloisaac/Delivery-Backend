@@ -4,6 +4,7 @@ using Arowolo_Delivery_Project.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Arowolo_Delivery_Project.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231229152800_AddOrderToDb")]
+    partial class AddOrderToDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -135,8 +138,6 @@ namespace Arowolo_Delivery_Project.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Order");
                 });
@@ -419,15 +420,6 @@ namespace Arowolo_Delivery_Project.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Arowolo_Delivery_Project.Models.Order", b =>
-                {
-                    b.HasOne("Arowolo_Delivery_Project.Models.User", null)
-                        .WithMany("OrderList")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Arowolo_Delivery_Project.Models.Rating", b =>
                 {
                     b.HasOne("Arowolo_Delivery_Project.Models.Dish", null)
@@ -509,8 +501,6 @@ namespace Arowolo_Delivery_Project.Migrations
             modelBuilder.Entity("Arowolo_Delivery_Project.Models.User", b =>
                 {
                     b.Navigation("BasketList");
-
-                    b.Navigation("OrderList");
 
                     b.Navigation("Ratings");
                 });
