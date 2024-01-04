@@ -12,7 +12,7 @@ namespace Arowolo_Delivery_Project.Models
 
         public Status Status { get; set; } = Status.InProcess;
 
-        public int Price { get; set; }
+        public double Price { get; set; }
 
         //public Guid BasketId { get; set; }
 

@@ -141,7 +141,6 @@ namespace Arowolo_Delivery_Project.Services.UserService
                     new Claim(ClaimTypes.Email, user.Email),
                     new Claim(ClaimTypes.Name, user.FullName),
                     new Claim(ClaimTypes.Authentication, user.Id.ToString()),
-                    //new Claim(ClaimTypes.Role, isAdmin ? ApplicationRoleNames.Administrator : ApplicationRoleNames.User)
                 }),
                 Expires = DateTime.UtcNow.AddSeconds(_bearerTokenSettings.ExpiryTimeInSeconds),
                 SigningCredentials =

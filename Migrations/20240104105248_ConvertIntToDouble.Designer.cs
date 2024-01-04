@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Arowolo_Delivery_Project.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231220100214_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20240104105248_ConvertIntToDouble")]
+    partial class ConvertIntToDouble
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,12 +37,17 @@ namespace Arowolo_Delivery_Project.Migrations
                     b.Property<Guid>("DishId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("OrderId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("DishId");
+
+                    b.HasIndex("OrderId");
 
                     b.HasIndex("UserId");
 
@@ -73,8 +78,8 @@ namespace Arowolo_Delivery_Project.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
 
                     b.Property<int>("Rating")
                         .HasColumnType("int");
@@ -107,6 +112,38 @@ namespace Arowolo_Delivery_Project.Migrations
                     b.ToTable("LogoutTokens");
                 });
 
+            modelBuilder.Entity("Arowolo_Delivery_Project.Models.Order", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DeliveryTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("OrderTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Order");
+                });
+
             modelBuilder.Entity("Arowolo_Delivery_Project.Models.Rating", b =>
                 {
                     b.Property<Guid>("Id")
@@ -125,6 +162,8 @@ namespace Arowolo_Delivery_Project.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("DishId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Rating");
                 });
@@ -360,14 +399,33 @@ namespace Arowolo_Delivery_Project.Migrations
 
             modelBuilder.Entity("Arowolo_Delivery_Project.Models.Basket", b =>
                 {
-                    b.HasOne("Arowolo_Delivery_Project.Models.Dish", null)
+                    b.HasOne("Arowolo_Delivery_Project.Models.Dish", "Dish")
                         .WithMany("UserwithDish")
                         .HasForeignKey("DishId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Arowolo_Delivery_Project.Models.User", null)
+                    b.HasOne("Arowolo_Delivery_Project.Models.Order", "Order")
+                        .WithMany("Baskets")
+                        .HasForeignKey("OrderId");
+
+                    b.HasOne("Arowolo_Delivery_Project.Models.User", "User")
                         .WithMany("BasketList")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Dish");
+
+                    b.Navigation("Order");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Arowolo_Delivery_Project.Models.Order", b =>
+                {
+                    b.HasOne("Arowolo_Delivery_Project.Models.User", null)
+                        .WithMany("OrderList")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -378,6 +436,12 @@ namespace Arowolo_Delivery_Project.Migrations
                     b.HasOne("Arowolo_Delivery_Project.Models.Dish", null)
                         .WithMany("RatingList")
                         .HasForeignKey("DishId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Arowolo_Delivery_Project.Models.User", null)
+                        .WithMany("Ratings")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -440,9 +504,18 @@ namespace Arowolo_Delivery_Project.Migrations
                     b.Navigation("UserwithDish");
                 });
 
+            modelBuilder.Entity("Arowolo_Delivery_Project.Models.Order", b =>
+                {
+                    b.Navigation("Baskets");
+                });
+
             modelBuilder.Entity("Arowolo_Delivery_Project.Models.User", b =>
                 {
                     b.Navigation("BasketList");
+
+                    b.Navigation("OrderList");
+
+                    b.Navigation("Ratings");
                 });
 #pragma warning restore 612, 618
         }

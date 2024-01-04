@@ -95,7 +95,6 @@ namespace Arowolo_Delivery_Project.Services.BasketService
 
             if (currentUser == null)
             {
-                //throw new Exception("No active user");
                 return new List<DishBasketDto>();
             }
 
@@ -106,7 +105,7 @@ namespace Arowolo_Delivery_Project.Services.BasketService
                 Name = basket.Dish.Name,
 
                 Price = basket.Dish.Price,
-
+                
                 TotalPrice = basket.Dish.Price * basket.Count,
 
                 Amount = basket.Count,
