@@ -75,8 +75,8 @@ namespace Arowolo_Delivery_Project.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
 
                     b.Property<int>("Rating")
                         .HasColumnType("int");
@@ -125,8 +125,13 @@ namespace Arowolo_Delivery_Project.Migrations
                     b.Property<DateTime>("OrderTime")
                         .HasColumnType("datetime2");
 
+<<<<<<< HEAD
                     b.Property<int>("Price")
                         .HasColumnType("int");
+=======
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+>>>>>>> order_related
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
