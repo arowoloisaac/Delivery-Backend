@@ -10,7 +10,11 @@ namespace Arowolo_Delivery_Project.Models
 
         public DateTime OrderTime { get; set; }
 
+<<<<<<< HEAD
+        public Status Status { get; set; } = Status.Delivered;
+=======
         public Status Status { get; set; } = Status.InProcess;
+>>>>>>> confirm_order
 
         public double Price { get; set; }
 

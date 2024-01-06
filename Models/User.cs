@@ -17,6 +17,8 @@ namespace Arowolo_Delivery_Project.Models
         public ICollection<Basket> BasketList { get; set; } = new List<Basket>();
         public ICollection<Order> OrderList { get; set; } = new List<Order>();
 
+        public ICollection<Order> OrderList { get; set; } = new List<Order>();
+
         public DateTime CreateDateTime { get; set; }
         public DateTime ModifyDateTime { get; set; }
         public DateTime? DeleteDate { get; set; }

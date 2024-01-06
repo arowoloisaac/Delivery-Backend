@@ -26,7 +26,11 @@ namespace Arowolo_Delivery_Project.Services.BasketService
                 throw new Exception("No active user");
             }
 
+<<<<<<< HEAD
+            var dish = await _context.Dishes.FirstOrDefaultAsync( dish => dish.Id == dishId);
+=======
             var dish = await _context.Dishes.FirstOrDefaultAsync(dish => dish.Id == dishId);
+>>>>>>> confirm_order
 
             if (dish == null)
             {
@@ -70,7 +74,11 @@ namespace Arowolo_Delivery_Project.Services.BasketService
                 throw new Exception("Dish doesn't exist");
             }
 
+<<<<<<< HEAD
+            var dishInCart = await _context.Baskets.FirstOrDefaultAsync(dishInCart => dishInCart.Dish.Id == dishId && dishInCart.User.Id == currentUser.Id);
+=======
             var dishInCart = await _context.Baskets.FirstOrDefaultAsync(dishInCart => dishInCart.Dish.Id == dishId && dishInCart.User.Id == currentUser.Id && dishInCart.Order.Id == null);
+>>>>>>> confirm_order
 
             if (dishInCart != null)
             {
@@ -98,7 +106,11 @@ namespace Arowolo_Delivery_Project.Services.BasketService
                 return new List<DishBasketDto>();
             }
 
+<<<<<<< HEAD
+            var dishInCartList = await _context.Baskets.Where( basket => basket.User.Id == currentUser.Id ).Include( basket => basket.Dish ).ToListAsync();
+=======
             var dishInCartList = await _context.Baskets.Where(basket => basket.User.Id == currentUser.Id && basket.Order.Id == null).Include(basket => basket.Dish).ToListAsync();
+>>>>>>> confirm_order
 
             var cartList = dishInCartList.Select(basket => new DishBasketDto
             {

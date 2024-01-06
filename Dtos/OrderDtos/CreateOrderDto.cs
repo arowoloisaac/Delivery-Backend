@@ -1,4 +1,10 @@
+<<<<<<< HEAD
+﻿using Arowolo_Delivery_Project.Enums;
+
+namespace Arowolo_Delivery_Project.Dtos.OrderDtos
+=======
 ﻿namespace Arowolo_Delivery_Project.Dtos.OrderDtos
+>>>>>>> confirm_order
 {
     public class CreateOrderDto
     {

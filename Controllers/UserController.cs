@@ -25,6 +25,7 @@ namespace Arowolo_Delivery_Project.Controllers
         }
 
         [HttpPost("register")]
+        [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterUserDto user)
         {
             if (!ModelState.IsValid)
@@ -94,6 +95,7 @@ namespace Arowolo_Delivery_Project.Controllers
 
 
         [HttpPost("login")]
+        [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] LoginUserDto model)
         {
             try

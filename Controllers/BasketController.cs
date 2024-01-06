@@ -7,7 +7,7 @@ using System.Security.Claims;
 
 namespace Arowolo_Delivery_Project.Controllers
 {
-    [Route("api/[controller]")]
+    /*[Route("api/[controller]")]
     [ApiController]
     public class BasketController : ControllerBase
     {
@@ -60,6 +60,7 @@ namespace Arowolo_Delivery_Project.Controllers
         [HttpDelete("dish/{dishId}")]
         public async Task<IActionResult> DeleteCart(Guid dishId, bool increase)
         {
+<<<<<<< HEAD
             try
             {
                 var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Authentication);
@@ -88,6 +89,15 @@ namespace Arowolo_Delivery_Project.Controllers
             }
             
             
+=======
+<<<<<<< HEAD
+            var userId = User.Claims.FirstOrDefault( x => x.Type == ClaimTypes.Authentication);
+=======
+            var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Authentication);
+>>>>>>> confirm_order
+            await _basketService.DeleteDishInCart(dishId, increase, userId.Value);
+            return Ok();
+>>>>>>> master
         }
-    }
+    }*/
 }
