@@ -57,13 +57,6 @@ namespace Arowolo_Delivery_Project.Controllers
         }
 
 
-        /// <summary>
-        /// This endpoint deletes dishes from the cart either by reducing it or removing it from the cart
-        /// </summary>
-        /// <param name="dishId">The dish Id in which the user wants to perform the delete operation</param>
-        /// <param name="increase"> A boolean datatype used which aim reduce or removing the dish from basket</param>
-        /// <returns></returns>
-        /// <response code="401">Unauthorized access.</response>
         [HttpDelete("dish/{dishId}")]
         public async Task<IActionResult> DeleteCart(Guid dishId, bool increase)
         {

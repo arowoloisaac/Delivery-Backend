@@ -13,7 +13,7 @@ namespace Arowolo_Delivery_Project.Services.DishService
 
         //Task<ServiceResponses> GetDishes(Category? category, bool? vegetarian, Sorting? sort, int? page);
 
-        Task<bool> GetDishRating(Guid dishId);
+        Task<bool> GetDishRating(Guid dishId, string userId);
 
         Task<Rating> AddRating(Guid dishId, int value, string UserId);
 

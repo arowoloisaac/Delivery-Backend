@@ -54,11 +54,22 @@ namespace Arowolo_Delivery_Project.Controllers
                     return NotFound();
                 }
             }
+            catch (BadHttpRequestException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                var response = new Response
+                {
+                    Status = "Error" + ex.Source,
+                    Message = "Internal Service Error: " + ex.Message
+                };
+
+                return StatusCode(500, response);
             }
-            
+
         }
 
         [HttpGet]
@@ -73,20 +84,58 @@ namespace Arowolo_Delivery_Project.Controllers
                     return Ok(dishes);
                 }
 
-                else { return NotFound(); }
+                else { return NotFound("Dish not fount"); }
             }
+
+            catch (BadHttpRequestException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                var response = new Response
+                {
+                    Status = "Error" + ex.Source,
+                    Message = "Internal Service Error: " + ex.Message
+                };
+
+                return StatusCode(500, response);
             }
-            
+
         }
 
 
         [HttpGet("{id}/check/rating")]
+        [Authorize]
         public async Task<IActionResult> CheckRating(Guid id)
         {
-            return Ok(await _dishService.GetDishRating(id));
+            try
+            {
+                var UserId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Authentication);
+                if (UserId == null)
+                {
+                    return Unauthorized("User is not authorized");
+                }
+                return Ok(await _dishService.GetDishRating(id, UserId.Value ));
+            }
+
+            catch (BadHttpRequestException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            catch (Exception ex)
+            {
+                var response = new Response
+                {
+                    Status = "Error",
+                    Message = "Internal Service Error: " + ex.Message
+                };
+
+                return StatusCode(500, response);
+            }
+
         }
 
 
@@ -106,9 +155,20 @@ namespace Arowolo_Delivery_Project.Controllers
                 return Ok(await _dishService.AddRating(id, value, UserId.Value));
             }
 
-            catch (Exception ex)
+            catch (BadHttpRequestException ex)
             {
                 return BadRequest(ex.Message);
+            }
+
+            catch (Exception ex)
+            {
+                var response = new Response
+                {
+                    Status = "Error",
+                    Message = "Internal Service Error: " + ex.Message
+                };
+
+                return StatusCode(500, response);
             }
         }
 

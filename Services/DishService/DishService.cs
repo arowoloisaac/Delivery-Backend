@@ -118,9 +118,10 @@ namespace Arowolo_Delivery_Project.Services.DishService
 
         
         //for checking rating 
-        public async Task<bool> GetDishRating(Guid dishId)
+        public async Task<bool> GetDishRating(Guid dishId, string userId)
         {
-            var dishRating = await _context.Rating.AnyAsync( rating => rating.DishId == dishId);
+            var currentUser = await _userManager.FindByIdAsync(userId);
+            var dishRating = await _context.Rating.AnyAsync( rating => rating.DishId == dishId && rating.UserId == currentUser.Id);
 
             return dishRating;
         }
@@ -130,13 +131,13 @@ namespace Arowolo_Delivery_Project.Services.DishService
         public async Task<Rating> AddRating(Guid dishId, int ratingScore, string UserId)
         {
             var dishes = await _context.Dishes.FirstOrDefaultAsync(dish => dish.Id == dishId);
-            var existingUser = await _userManager.FindByIdAsync(UserId);
+            var currentUser = await _userManager.FindByIdAsync(UserId);
 
             var newRating = new Rating
             {
                 DishId = dishId,
                 Value = ratingScore,
-                UserId = existingUser.Id
+                UserId = currentUser.Id
             };
 
             _context.Rating.Add(newRating);
