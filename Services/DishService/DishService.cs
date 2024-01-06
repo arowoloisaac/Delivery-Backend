@@ -137,11 +137,7 @@ namespace Arowolo_Delivery_Project.Services.DishService
             {
                 DishId = dishId,
                 Value = ratingScore,
-<<<<<<< HEAD
                 UserId = currentUser.Id
-=======
-                UserId = existingUser.Id
->>>>>>> master
             };
 
             _context.Rating.Add(newRating);

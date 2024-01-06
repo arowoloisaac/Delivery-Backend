@@ -1,10 +1,6 @@
-<<<<<<< HEAD
-﻿using System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices;
 
 namespace Arowolo_Delivery_Project.Models
-=======
-﻿namespace Arowolo_Delivery_Project.Models
->>>>>>> confirm_order
 {
     public class tokenResponse
     {
