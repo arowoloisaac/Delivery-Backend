@@ -7,7 +7,7 @@ namespace Arowolo_Delivery_Project.Dtos.DishDto
         public Guid Id { get; set; } = Guid.NewGuid();
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
-        public int Price { get; set; }
+        public double Price { get; set; }
         public bool IsVegetarian { get; set; }
         public Category Category { get; set; }
         public int Rating { get; set; }

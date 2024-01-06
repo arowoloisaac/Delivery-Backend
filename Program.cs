@@ -5,6 +5,7 @@ using Arowolo_Delivery_Project.Services.BackgroundJobs;
 using Arowolo_Delivery_Project.Services.BasketService;
 using Arowolo_Delivery_Project.Services.DishService;
 using Arowolo_Delivery_Project.Services.Initialization;
+using Arowolo_Delivery_Project.Services.OrderService;
 using Arowolo_Delivery_Project.Services.TokenService;
 using Arowolo_Delivery_Project.Services.UserService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -39,6 +40,7 @@ namespace Arowolo_Delivery_Project
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IBasketService, BasketService>();
             builder.Services.AddScoped<ITokenStorageService, TokenDbStorageService>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
 
             //add automapper
             //builder.Services.AddAutoMapper(typeof(Program).Assembly);

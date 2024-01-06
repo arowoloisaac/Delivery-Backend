@@ -7,16 +7,16 @@ namespace Arowolo_Delivery_Project.Models
         public List<GetDishDto> Dishes { get; set; } = new List<GetDishDto>();
         public PageInfo Pagination { get; set; }
 
-        public ServiceResponses(List<GetDishDto> dish, int page, int total, int size)
+        public ServiceResponses(List<GetDishDto> dish, int page, int total, int count)
         {
             this.Dishes = dish;
 
             //this.pagination = new PageInfo(page, total, size);
             this.Pagination = new PageInfo
             {
-                Count = total,
+                Count = count,
                 Current = page,
-                Size = size
+                Size = total
             };
         }
     }
@@ -24,9 +24,9 @@ namespace Arowolo_Delivery_Project.Models
 
     public class PageInfo
     {
-        public int Size { get; set; }
+        public int Size { get; set; }// number of item in the particular page
         public int Current { get; set; }
-        public int Count { get; set; }
+        public int Count { get; set; } // number of pages
 
         public PageInfo() { }
 
