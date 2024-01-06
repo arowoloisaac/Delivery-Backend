@@ -51,7 +51,7 @@ namespace Arowolo_Delivery_Project.Services.DishService
 
             if (dish is null)
             {
-                throw new Exception($"Dish with {dish?.Id} doesn't exist");
+                throw new Exception($"Dish with {id} doesn't exist");
             }
             return _mapper.Map<GetDishDto>(dish);
         }
