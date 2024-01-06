@@ -1,4 +1,22 @@
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Arowolo_Delivery_Project.Controllers
+{
+    [Route("api/")]
+    [ApiController]
+    public class OrderController : ControllerBase
+    {
+
+        public OrderController()
+        {
+            
+=======
+>>>>>>> basket
 ﻿using Arowolo_Delivery_Project.Dtos.OrderDtos;
 using Arowolo_Delivery_Project.Services.OrderService;
 using Microsoft.AspNetCore.Http;
@@ -16,11 +34,27 @@ namespace Arowolo_Delivery_Project.Controllers
         public OrderController(IOrderService orderService)
         {
             _orderService = orderService;
+<<<<<<< HEAD
+=======
+>>>>>>> order_related
+>>>>>>> basket
         }
 
         [HttpGet]
         public async Task<IActionResult> GetOrders()
         {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+            throw new NotImplementedException();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetOrderById()
+        {
+            throw new NotImplementedException();
+=======
+>>>>>>> basket
             //throw new NotImplementedException();
             var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Authentication);
             var orders = await _orderService.GetOrder(userId.Value);
@@ -34,10 +68,28 @@ namespace Arowolo_Delivery_Project.Controllers
             var userId =  User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Authentication);
             //var check = await _orderService.GetOrderById(id, userId.Value);
             return Ok(await _orderService.GetOrderById(id, userId.Value));
+<<<<<<< HEAD
+=======
+>>>>>>> order_related
+>>>>>>> basket
         }
 
 
         [HttpPost]
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+        public async Task<IActionResult> PostOrder()
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> OrderStatus()
+        {
+            throw new NotImplementedException();
+=======
+>>>>>>> basket
         public async Task<IActionResult> PostOrder(CreateOrderDto model)
         {
             if (!ModelState.IsValid)
@@ -72,7 +124,11 @@ namespace Arowolo_Delivery_Project.Controllers
             {
                 throw new Exception(ex.Message, ex);    
             }
+<<<<<<< HEAD
 
+=======
+>>>>>>> order_related
+>>>>>>> basket
         }
     }
 }

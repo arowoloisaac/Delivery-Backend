@@ -22,17 +22,44 @@ namespace Arowolo_Delivery_Project.Controllers
         public async Task<IActionResult> GetBasket()
         {
             var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Authentication);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+            //await _basketService.GetBasket(userId.Value);
+=======
+>>>>>>> basket
             if (userId == null)
             {
                 return Unauthorized();
             }
 
+<<<<<<< HEAD
+=======
+>>>>>>> order_related
+>>>>>>> basket
             return Ok(await _basketService.GetBasket(userId.Value));
         }
 
         [HttpPost("dish/{dishId}")]
         public async Task<IActionResult> AddToCart(Guid dishId)
         {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+            var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Authentication);
+            await _basketService.AddDishToCart(dishId, userId.Value);
+            return Ok();
+        }
+
+
+        [HttpDelete("dish/{dishId}")]
+        public async Task<IActionResult> DeleteCart(Guid dishId, bool increase)
+        {
+            var userId = User.Claims.FirstOrDefault( x => x.Type == ClaimTypes.Authentication);
+            await _basketService.DeleteDishInCart(dishId, increase, userId.Value);
+            return Ok();
+=======
+>>>>>>> basket
             try
             {
                 var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Authentication);
@@ -89,6 +116,7 @@ namespace Arowolo_Delivery_Project.Controllers
             }
             
             
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
             var userId = User.Claims.FirstOrDefault( x => x.Type == ClaimTypes.Authentication);
@@ -98,6 +126,9 @@ namespace Arowolo_Delivery_Project.Controllers
             await _basketService.DeleteDishInCart(dishId, increase, userId.Value);
             return Ok();
 >>>>>>> master
+=======
+>>>>>>> order_related
+>>>>>>> basket
         }
     }*/
 }

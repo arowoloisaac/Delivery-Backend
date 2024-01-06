@@ -26,7 +26,15 @@ namespace Arowolo_Delivery_Project.Services.BasketService
                 throw new Exception("No active user");
             }
 
+<<<<<<< HEAD
             var dish = await _context.Dishes.FirstOrDefaultAsync(dish => dish.Id == dishId);
+=======
+<<<<<<< HEAD
+            var dish = await _context.Dishes.FirstOrDefaultAsync( dish => dish.Id == dishId);
+=======
+            var dish = await _context.Dishes.FirstOrDefaultAsync(dish => dish.Id == dishId);
+>>>>>>> order_related
+>>>>>>> basket
 
             if (dish == null)
             {
@@ -70,9 +78,17 @@ namespace Arowolo_Delivery_Project.Services.BasketService
                 throw new Exception("Dish doesn't exist");
             }
 
+<<<<<<< HEAD
 
             var dishInCart = await _context.Baskets.FirstOrDefaultAsync(dishInCart => dishInCart.Dish.Id == dishId && dishInCart.User.Id == currentUser.Id && dishInCart.Order.Id == null);
 
+=======
+<<<<<<< HEAD
+            var dishInCart = await _context.Baskets.FirstOrDefaultAsync(dishInCart => dishInCart.Dish.Id == dishId && dishInCart.User.Id == currentUser.Id);
+=======
+            var dishInCart = await _context.Baskets.FirstOrDefaultAsync(dishInCart => dishInCart.Dish.Id == dishId && dishInCart.User.Id == currentUser.Id && dishInCart.Order.Id == null);
+>>>>>>> order_related
+>>>>>>> basket
 
             if (dishInCart != null)
             {
@@ -97,19 +113,42 @@ namespace Arowolo_Delivery_Project.Services.BasketService
 
             if (currentUser == null)
             {
+<<<<<<< HEAD
                 return new List<DishBasketDto>();
             }
 
             //var dishInCartList = await _context.Baskets.Where( basket => basket.User.Id == currentUser.Id ).Include( basket => basket.Dish ).ToListAsync();
 
             var dishInCartList = await _context.Baskets.Where(basket => basket.User.Id == currentUser.Id && basket.Order.Id == null).Include(basket => basket.Dish).ToListAsync();
+=======
+<<<<<<< HEAD
+                //throw new Exception("No active user");
+                return new List<DishBasketDto>();
+            }
+
+            var dishInCartList = await _context.Baskets.Where( basket => basket.User.Id == currentUser.Id ).Include( basket => basket.Dish ).ToListAsync();
+=======
+                return new List<DishBasketDto>();
+            }
+
+            var dishInCartList = await _context.Baskets.Where(basket => basket.User.Id == currentUser.Id && basket.Order.Id == null).Include(basket => basket.Dish).ToListAsync();
+>>>>>>> order_related
+>>>>>>> basket
 
             var cartList = dishInCartList.Select(basket => new DishBasketDto
             {
                 Name = basket.Dish.Name,
 
                 Price = basket.Dish.Price,
+<<<<<<< HEAD
                 
+=======
+<<<<<<< HEAD
+
+=======
+                
+>>>>>>> order_related
+>>>>>>> basket
                 TotalPrice = basket.Dish.Price * basket.Count,
 
                 Amount = basket.Count,
