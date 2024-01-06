@@ -56,7 +56,7 @@ namespace Arowolo_Delivery_Project.Services.DishService
             return _mapper.Map<GetDishDto>(dish);
         }
 
-
+        // for getting all the dishes
         public async Task<ServiceResponses> GetDishes([FromQuery] List<Category>? category, bool? vegetarian, Sorting? sort, int? page)
         {
             IQueryable<Dish> query = _context.Dishes;
@@ -107,6 +107,8 @@ namespace Arowolo_Delivery_Project.Services.DishService
                                     .Take(pageResult)
                                     .ToListAsync();
 
+            totalItems = dishes.Count;
+
             var mappedDishes = _mapper.Map<IEnumerable<GetDishDto>>(dishes);
 
             var response = new ServiceResponses(mappedDishes.ToList(), currentPage, totalItems, pageCount);
@@ -130,11 +132,6 @@ namespace Arowolo_Delivery_Project.Services.DishService
             var dishes = await _context.Dishes.FirstOrDefaultAsync(dish => dish.Id == dishId);
             var existingUser = await _userManager.FindByIdAsync(UserId);
 
-            /*if (dishes is null || existingUser == null)
-            {
-                throw new ArgumentNullException("Dish or user not found");
-            }*/
-
             var newRating = new Rating
             {
                 DishId = dishId,
@@ -142,14 +139,10 @@ namespace Arowolo_Delivery_Project.Services.DishService
                 UserId = existingUser.Id
             };
 
-            //_context.Rating.Add(_mapper.Map<Rating>(newRating));
             _context.Rating.Add(newRating);
             await _context.SaveChangesAsync();
 
             return newRating;
-            //var ratingDto = _mapper.Map<RatingDto>(newRating);
-
-            //return ratingDto;
         }
 
     }
