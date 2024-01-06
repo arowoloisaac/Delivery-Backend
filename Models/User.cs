@@ -20,6 +20,7 @@ namespace Arowolo_Delivery_Project.Models
 
         public ICollection<Rating> Ratings { get; set; } = new List<Rating>();
         public ICollection<Basket> BasketList { get; set; } = new List<Basket>();
+        public ICollection<Order> OrderList { get; set; } = new List<Order>();
 
         public ICollection<Order> OrderList { get; set; } = new List<Order>();
 

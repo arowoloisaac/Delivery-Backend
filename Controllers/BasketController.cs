@@ -37,7 +37,11 @@ namespace Arowolo_Delivery_Project.Controllers
         [HttpDelete("dish/{dishId}")]
         public async Task<IActionResult> DeleteCart(Guid dishId, bool increase)
         {
+<<<<<<< HEAD
             var userId = User.Claims.FirstOrDefault( x => x.Type == ClaimTypes.Authentication);
+=======
+            var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Authentication);
+>>>>>>> confirm_order
             await _basketService.DeleteDishInCart(dishId, increase, userId.Value);
             return Ok();
         }

@@ -22,53 +22,34 @@ namespace Arowolo_Delivery_Project.Services.UserService
             _bearerTokenSettings = jwtTokenOptions.Value;
         }
 
-
-
-        /*public async Task<UserProfileDto> EditProfile(EditUserDto request)
-        {
-            var getIdFromProfile = new UserProfileDto();
-            var existingUser = await _userManager.FindByIdAsync(getIdFromProfile.Id.ToString());
-
-            if (existingUser is not null)
-            {
-                existingUser.Address = request.Address;
-                existingUser.BirthDate = request.BirthDate;
-                existingUser.PhoneNumber = request.PhoneNumber;
-                existingUser.Gender = request.Gender;
-                existingUser.FullName = request.FullName;
-
-                var updateUser = await _userManager.UpdateAsync(existingUser);
-                //UserProfileDto userProfileDto = await _userManager.UpdateAsync(existingUser);
-                if (!updateUser.Succeeded)
-                {
-                    throw new Exception("Failed to update user profile");
-                }
-            }
-
-            throw new ArgumentNullException("No Active user");
-        }*/
-
         public async Task EditProfile(EditUserDto request, string Id)
         {
+<<<<<<< HEAD
             var existingUser = await _userManager.FindByIdAsync(Id);
 
             if (existingUser is not null)
-            {
-                existingUser.Address = request.Address;
-                existingUser.BirthDate = request.BirthDate;
-                existingUser.PhoneNumber = request.PhoneNumber;
-                existingUser.Gender = request.Gender;
-                existingUser.FullName = request.FullName;
+=======
+            var currentUser = await _userManager.FindByIdAsync(Id);
 
-                var updateUser = await _userManager.UpdateAsync(existingUser);
-                
-                if (!updateUser.Succeeded)
-                {
-                    throw new Exception("Failed to update user profile");
-                }
+            if (currentUser is null)
+>>>>>>> confirm_order
+            {
+                throw new ArgumentNullException("No Active user");
             }
 
-            throw new ArgumentNullException("No Active user");
+            currentUser.Address = request.Address;
+            currentUser.BirthDate = request.BirthDate;
+            currentUser.PhoneNumber = request.PhoneNumber;
+            currentUser.Gender = request.Gender;
+            currentUser.FullName = request.FullName;
+
+            var updateUser = await _userManager.UpdateAsync(currentUser);
+
+            if (!updateUser.Succeeded)
+            {
+                throw new Exception("Failed to update user profile");
+            }
+            
         }
 
         public async Task<UserProfileDto> GetProfile(string email)
@@ -137,7 +118,10 @@ namespace Arowolo_Delivery_Project.Services.UserService
             var token = GenerateToken(identityUser);
 
             return new tokenResponse(token);
+<<<<<<< HEAD
 
+=======
+>>>>>>> confirm_order
         }
 
 

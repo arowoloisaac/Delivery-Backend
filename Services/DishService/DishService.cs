@@ -130,11 +130,6 @@ namespace Arowolo_Delivery_Project.Services.DishService
             var dishes = await _context.Dishes.FirstOrDefaultAsync(dish => dish.Id == dishId);
             var existingUser = await _userManager.FindByIdAsync(UserId);
 
-            /*if (dishes is null || existingUser == null)
-            {
-                throw new ArgumentNullException("Dish or user not found");
-            }*/
-
             var newRating = new Rating
             {
                 DishId = dishId,
