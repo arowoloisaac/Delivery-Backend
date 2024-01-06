@@ -24,27 +24,10 @@ namespace Arowolo_Delivery_Project.Services.UserService
 
         public async Task EditProfile(EditUserDto request, string Id)
         {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
 
             var currentUser = await _userManager.FindByIdAsync(Id);
 
             if (currentUser is null)
-
-=======
-<<<<<<< HEAD
-            var existingUser = await _userManager.FindByIdAsync(Id);
->>>>>>> master
-
-            var currentUser = await _userManager.FindByIdAsync(Id);
-
-            if (currentUser is null)
-<<<<<<< HEAD
-=======
->>>>>>> order_related
->>>>>>> basket
->>>>>>> master
             {
                 throw new ArgumentNullException("No Active user");
             }
@@ -130,16 +113,6 @@ namespace Arowolo_Delivery_Project.Services.UserService
             var token = GenerateToken(identityUser);
 
             return new tokenResponse(token);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-
-=======
->>>>>>> order_related
->>>>>>> basket
->>>>>>> master
         }
 
 

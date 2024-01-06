@@ -1,5 +1,6 @@
 ﻿using Arowolo_Delivery_Project.Models;
 using Arowolo_Delivery_Project.Services.BasketService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -19,72 +20,32 @@ namespace Arowolo_Delivery_Project.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetBasket()
         {
             var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Authentication);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-            //await _basketService.GetBasket(userId.Value);
-=======
->>>>>>> basket
+
             if (userId == null)
             {
                 return Unauthorized();
             }
 
-<<<<<<< HEAD
-=======
->>>>>>> order_related
->>>>>>> basket
             return Ok(await _basketService.GetBasket(userId.Value));
         }
 
         [HttpPost("dish/{dishId}")]
+        [Authorize]
         public async Task<IActionResult> AddToCart(Guid dishId)
         {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
             var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Authentication);
             await _basketService.AddDishToCart(dishId, userId.Value);
             return Ok();
         }
 
 
-        [HttpDelete("dish/{dishId}")]
-        public async Task<IActionResult> DeleteCart(Guid dishId, bool increase)
-        {
-            var userId = User.Claims.FirstOrDefault( x => x.Type == ClaimTypes.Authentication);
-            await _basketService.DeleteDishInCart(dishId, increase, userId.Value);
-            return Ok();
-=======
->>>>>>> basket
-            try
-            {
-                var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Authentication);
-                if (userId == null)
-                {
-                    return Unauthorized("User is not authorized");
-                }
-                await _basketService.AddDishToCart(dishId, userId.Value);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                var response = new Response
-                {
-                    Status = "Error",
-                    Message = "Internal Service Error: " + ex.Message
-                };
-
-                return StatusCode(500, response);
-            }
-            
-        }
-
 
         [HttpDelete("dish/{dishId}")]
+        [Authorize]
         public async Task<IActionResult> DeleteCart(Guid dishId, bool increase)
         {
             try
@@ -113,24 +74,7 @@ namespace Arowolo_Delivery_Project.Controllers
 
                 return StatusCode(500, response);
             }
-            
-<<<<<<< HEAD
-=======
-            
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-            var userId = User.Claims.FirstOrDefault( x => x.Type == ClaimTypes.Authentication);
-=======
-            var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Authentication);
->>>>>>> confirm_order
-            await _basketService.DeleteDishInCart(dishId, increase, userId.Value);
-            return Ok();
->>>>>>> master
-=======
->>>>>>> order_related
->>>>>>> basket
->>>>>>> master
+
         }
     }
 }

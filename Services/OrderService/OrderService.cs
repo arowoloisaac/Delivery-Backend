@@ -1,16 +1,4 @@
-<<<<<<< HEAD
 using Arowolo_Delivery_Project.Data;
-=======
-<<<<<<< HEAD
-
-=======
-<<<<<<< HEAD
-﻿using Arowolo_Delivery_Project.Dtos.BasketDto;
-using Arowolo_Delivery_Project.Models;
-=======
->>>>>>> basket
-﻿using Arowolo_Delivery_Project.Data;
->>>>>>> master
 using Arowolo_Delivery_Project.Dtos.BasketDto;
 using Arowolo_Delivery_Project.Dtos.OrderDtos;
 using Arowolo_Delivery_Project.Enums;
@@ -18,47 +6,13 @@ using Arowolo_Delivery_Project.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-<<<<<<< HEAD
 
-=======
-<<<<<<< HEAD
-
-=======
->>>>>>> order_related
->>>>>>> basket
->>>>>>> master
 
 namespace Arowolo_Delivery_Project.Services.OrderService
 {
     public class OrderService : IOrderService
     {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
 
-=======
-<<<<<<< HEAD
-        public Task ConfirmOrder(Guid OrderId, string UserId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<DishBasketDto>> GetOrder(string UserId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task GetOrderById(Guid OrderId, string UserId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task PostOrder(string UserId)
-        {
-            throw new NotImplementedException();
-=======
->>>>>>> basket
->>>>>>> master
         private readonly UserManager<User> _userManager;
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
@@ -186,13 +140,6 @@ namespace Arowolo_Delivery_Project.Services.OrderService
             _context.Order.Add(newOrder);
             // probably add the orderid to the basket to update it 
             await _context.SaveChangesAsync();
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
->>>>>>> order_related
->>>>>>> basket
->>>>>>> master
         }
     }
 }
