@@ -2,6 +2,7 @@
 using Arowolo_Delivery_Project.Dtos.DishDto;
 using Arowolo_Delivery_Project.Dtos.OrderDtos;
 using Arowolo_Delivery_Project.Models;
+using Arowolo_Delivery_Project.Services.DishService;
 using AutoMapper;
 
 namespace Arowolo_Delivery_Project.Cofiguration
@@ -10,7 +11,7 @@ namespace Arowolo_Delivery_Project.Cofiguration
     {
         public AutoMapperConfiguration()
         {
-            CreateMap<Dish, GetDishDto>();
+            CreateMap<Dish, GetDishDto>().ForMember(dest => dest.Rating, opt => opt.MapFrom<AverageRatingResolver>());
             CreateMap<AddDishDto, Dish>();
             CreateMap<RatingDto, Rating>();
             CreateMap<Rating,  RatingDto>();

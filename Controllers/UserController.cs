@@ -6,6 +6,8 @@ using Arowolo_Delivery_Project.Services.UserService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
+using System.ComponentModel;
 using System.Net;
 using System.Security.Claims;
 
@@ -26,6 +28,7 @@ namespace Arowolo_Delivery_Project.Controllers
 
         [HttpPost("register")]
         [AllowAnonymous]
+        [SwaggerOperation(Summary = "Register new user")]
         public async Task<IActionResult> Register(RegisterUserDto user)
         {
             if (!ModelState.IsValid)
@@ -47,6 +50,7 @@ namespace Arowolo_Delivery_Project.Controllers
 
         [HttpGet("profile")]
         [Authorize]
+        [SwaggerOperation(Summary = "Get user profile")]
         public async Task<ActionResult<UserProfileDto>> GetUserProfile() 
         {  
             try
@@ -74,6 +78,7 @@ namespace Arowolo_Delivery_Project.Controllers
 
         [HttpPut("profile")]
         [Authorize]
+        [SwaggerOperation(Summary = "Edit user profile")]
         public async Task<IActionResult> EditProfile(EditUserDto model)
         {
             if (!ModelState.IsValid)
@@ -96,6 +101,7 @@ namespace Arowolo_Delivery_Project.Controllers
 
         [HttpPost("login")]
         [AllowAnonymous]
+        [SwaggerOperation(Summary = "Log in to the system")]
         public async Task<IActionResult> Login([FromBody] LoginUserDto model)
         {
             try
@@ -116,6 +122,7 @@ namespace Arowolo_Delivery_Project.Controllers
 
         [HttpPost("logout")]
         [Authorize]
+        [SwaggerOperation(Summary = "Log out system user")]
         public IActionResult Logout()
         {
             var id = Guid.Parse(User.FindFirst(ClaimTypes.Authentication).Value);

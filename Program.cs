@@ -26,7 +26,6 @@ namespace Arowolo_Delivery_Project
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -63,12 +62,6 @@ namespace Arowolo_Delivery_Project
             {
                 options.AddPolicy(ApplicationRoleNames.User,
                     new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build());
-
-                /*options.AddPolicy(ApplicationRoleNames.Administrator, new AuthorizationPolicyBuilder()
-                    .RequireAuthenticatedUser()
-                    .RequireRole(ApplicationRoleNames.Administrator)
-                    .RequireClaim(ClaimTypes.Role, ApplicationRoleNames.Administrator)
-                    .Build());*/
             });
 
 
@@ -124,6 +117,7 @@ namespace Arowolo_Delivery_Project
                     BearerFormat = "JWT",
                     Scheme = "Bearer"
                 });
+                option.EnableAnnotations();
                 option.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     {

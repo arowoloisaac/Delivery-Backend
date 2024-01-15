@@ -3,6 +3,7 @@ using Arowolo_Delivery_Project.Dtos.DishDto;
 using Arowolo_Delivery_Project.Enums;
 using Arowolo_Delivery_Project.Models;
 using AutoMapper;
+using AutoMapper.Internal;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -47,7 +48,7 @@ namespace Arowolo_Delivery_Project.Services.DishService
         //for getting dish by ID
         public async Task<GetDishDto> GetDishById(Guid id)
         {
-            var dish = await _context.Dishes.FirstOrDefaultAsync(d => d.Id == id);
+            var dish = await _context.Dishes.Include(dish => dish.RatingList).FirstOrDefaultAsync(d => d.Id == id);
 
             if (dish is null)
             {
@@ -59,7 +60,7 @@ namespace Arowolo_Delivery_Project.Services.DishService
         // for getting all the dishes
         public async Task<ServiceResponses> GetDishes([FromQuery] List<Category>? category, bool? vegetarian, Sorting? sort, int? page)
         {
-            IQueryable<Dish> query = _context.Dishes;
+            IQueryable<Dish> query = _context.Dishes.Include(dish => dish.RatingList);
 
             if (category != null && category.Any())
             {
@@ -89,10 +90,10 @@ namespace Arowolo_Delivery_Project.Services.DishService
                         query = query.OrderByDescending(filterBy => filterBy.Price);
                         break;
                     case Sorting.RatingAsc:
-                        query = query.OrderBy(filterBy => filterBy.Rating);
+                        query = query.OrderBy(filterBy => filterBy.RatingList);
                         break;
                     case Sorting.RatingDesc:
-                        query = query.OrderByDescending(filterBy => filterBy.Rating);
+                        query = query.OrderByDescending(filterBy => filterBy.RatingList);
                         break;
                 }
             }
@@ -146,6 +147,21 @@ namespace Arowolo_Delivery_Project.Services.DishService
             return newRating;
         }
 
+    }
+
+    //to map the rating average for the dishes using automapper. reference https://docs.automapper.org/en/stable/Custom-value-resolvers.html
+    public class AverageRatingResolver : IValueResolver<Dish, GetDishDto, double>
+    {
+        public double Resolve(Dish source, GetDishDto destination, double destMember, ResolutionContext context)
+        {
+            if (source.RatingList == null || source.RatingList.Count == 0)
+            {
+                return 0; // or any default value you want to use
+            }
+
+            double average = source.RatingList.Select(r => r.Value).Average();
+            return average;
+        }
     }
 }
 

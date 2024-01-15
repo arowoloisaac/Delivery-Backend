@@ -78,9 +78,6 @@ namespace Arowolo_Delivery_Project.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
-                    b.Property<int>("Rating")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.ToTable("Dishes");

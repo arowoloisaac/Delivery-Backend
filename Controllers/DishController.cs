@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using System.Security.Claims;
 
 namespace Arowolo_Delivery_Project.Controllers
@@ -23,6 +24,7 @@ namespace Arowolo_Delivery_Project.Controllers
 
         // to be deleted later
         [HttpPost("PostDish")]
+        [SwaggerOperation(Summary = "post dish, just for adding dish rather than writing queries")]
         public async Task<ActionResult<List<GetDishDto>>> PostDish(AddDishDto newDish)
         {
             try
@@ -38,6 +40,7 @@ namespace Arowolo_Delivery_Project.Controllers
 
 
         [HttpGet("{id}")]
+        [SwaggerOperation(Summary = "Get the list of dishes")]
         public async Task<ActionResult<List<GetDishDto>>> GetDishById(Guid id)
         {
             try
@@ -73,6 +76,7 @@ namespace Arowolo_Delivery_Project.Controllers
         }
 
         [HttpGet]
+        [SwaggerOperation(Summary = "Get information of a dish by its id")]
         public async Task<IActionResult> GetDishes([FromQuery] List<Category>? category, bool? vegetarian, Sorting? sort, int? page)
         {
             try
@@ -108,6 +112,7 @@ namespace Arowolo_Delivery_Project.Controllers
 
         [HttpGet("{id}/check/rating")]
         [Authorize]
+        [SwaggerOperation(Summary = "Check if user has a setted rating for a dish")]
         public async Task<IActionResult> CheckRating(Guid id)
         {
             try
@@ -141,7 +146,7 @@ namespace Arowolo_Delivery_Project.Controllers
 
         [HttpPost("rating")]
         [Authorize]
-        //public async Task<IActionResult> PostRating(Guid id, int value)
+        [SwaggerOperation(Summary = "Set rating for a dish")]
         public async Task<IActionResult> PostRating(Guid id, int value)
         {
             try

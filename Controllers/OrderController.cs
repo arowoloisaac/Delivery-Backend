@@ -3,6 +3,7 @@ using Arowolo_Delivery_Project.Services.OrderService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using System.Security.Claims;
 
 namespace Arowolo_Delivery_Project.Controllers
@@ -21,6 +22,7 @@ namespace Arowolo_Delivery_Project.Controllers
 
         [HttpGet]
         [Authorize]
+        [SwaggerOperation(Summary = "Get order history")]
         public async Task<IActionResult> GetOrders()
         {
             //throw new NotImplementedException();
@@ -32,6 +34,7 @@ namespace Arowolo_Delivery_Project.Controllers
 
         [HttpGet("{id}")]
         [Authorize]
+        [SwaggerOperation(Summary = "Get order by its id")]
         public async Task<IActionResult> GetOrderById(Guid id)
         {
             var userId =  User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Authentication);
@@ -42,6 +45,7 @@ namespace Arowolo_Delivery_Project.Controllers
 
         [HttpPost]
         [Authorize]
+        [SwaggerOperation(Summary = "create an order from dishes in basket")]
         public async Task<IActionResult> PostOrder(CreateOrderDto model)
         {
             if (!ModelState.IsValid)
@@ -63,6 +67,7 @@ namespace Arowolo_Delivery_Project.Controllers
 
         [HttpPost("{id}/status")]
         [Authorize]
+        [SwaggerOperation(Summary = "comfirm order delivery")]
         public async Task<IActionResult> OrderStatus(Guid id)
         {
             try

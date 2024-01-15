@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using System.Security.Claims;
 
 namespace Arowolo_Delivery_Project.Controllers
@@ -21,6 +22,7 @@ namespace Arowolo_Delivery_Project.Controllers
 
         [HttpGet]
         [Authorize]
+        [SwaggerOperation(Summary = "Get user cart")]
         public async Task<IActionResult> GetBasket()
         {
             var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Authentication);
@@ -35,17 +37,37 @@ namespace Arowolo_Delivery_Project.Controllers
 
         [HttpPost("dish/{dishId}")]
         [Authorize]
+        [SwaggerOperation(Summary = "Add dish to cart")]
         public async Task<IActionResult> AddToCart(Guid dishId)
         {
-            var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Authentication);
-            await _basketService.AddDishToCart(dishId, userId.Value);
-            return Ok();
+            try
+            {
+                var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Authentication);
+                if (userId == null)
+                {
+                    return Unauthorized("User is not authorized");
+                }
+                await _basketService.AddDishToCart(dishId, userId.Value);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                var response = new Response
+                {
+                    Status = "Error",
+                    Message = "Internal Service Error: " + ex.Message
+                };
+
+                return StatusCode(500, response);
+            }
+
         }
 
 
 
         [HttpDelete("dish/{dishId}")]
         [Authorize]
+        [SwaggerOperation(Summary = "Decrease the number of dishes in the cart {if increase = true}, else, remove the dish completely")]
         public async Task<IActionResult> DeleteCart(Guid dishId, bool increase)
         {
             try

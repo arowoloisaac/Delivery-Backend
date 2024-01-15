@@ -89,3 +89,4 @@ C:\Users\arowo\source\repos\Arowolo_Delivery_Project\bin\Debug\net7.0\Microsoft.
 C:\Users\arowo\source\repos\Arowolo_Delivery_Project\bin\Debug\net7.0\NLog.dll
 C:\Users\arowo\source\repos\Arowolo_Delivery_Project\bin\Debug\net7.0\NLog.Extensions.Logging.dll
 C:\Users\arowo\source\repos\Arowolo_Delivery_Project\bin\Debug\net7.0\NLog.Web.AspNetCore.dll
+C:\Users\arowo\source\repos\Arowolo_Delivery_Project\bin\Debug\net7.0\Swashbuckle.AspNetCore.Annotations.dll
