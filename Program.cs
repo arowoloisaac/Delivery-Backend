@@ -117,7 +117,7 @@ namespace Arowolo_Delivery_Project
                     BearerFormat = "JWT",
                     Scheme = "Bearer"
                 });
-                option.EnableAnnotations();
+                option.EnableAnnotations(); // reference https://stackoverflow.com/questions/52883466/how-to-add-method-description-in-swagger-ui-in-webapi-application
                 option.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     {

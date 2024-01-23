@@ -22,25 +22,9 @@ namespace Arowolo_Delivery_Project.Controllers
             _dishService = dishService;
         }
 
-        // to be deleted later
-        [HttpPost("PostDish")]
-        [SwaggerOperation(Summary = "post dish, just for adding dish rather than writing queries")]
-        public async Task<ActionResult<List<GetDishDto>>> PostDish(AddDishDto newDish)
-        {
-            try
-            {
-                return Ok(await _dishService.AddDishes(newDish));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            
-        }
-
 
         [HttpGet("{id}")]
-        [SwaggerOperation(Summary = "Get the list of dishes")]
+        [SwaggerOperation(Summary = "Get information of a dish by its id")]
         public async Task<ActionResult<List<GetDishDto>>> GetDishById(Guid id)
         {
             try
@@ -76,7 +60,7 @@ namespace Arowolo_Delivery_Project.Controllers
         }
 
         [HttpGet]
-        [SwaggerOperation(Summary = "Get information of a dish by its id")]
+        [SwaggerOperation(Summary = "Get the list of dishes")]
         public async Task<IActionResult> GetDishes([FromQuery] List<Category>? category, bool? vegetarian, Sorting? sort, int? page)
         {
             try

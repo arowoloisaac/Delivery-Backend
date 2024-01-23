@@ -17,7 +17,6 @@ namespace Arowolo_Delivery_Project.Controllers
         public OrderController(IOrderService orderService)
         {
             _orderService = orderService;
-
         }
 
         [HttpGet]
