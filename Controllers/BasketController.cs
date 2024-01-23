@@ -9,7 +9,7 @@ using System.Security.Claims;
 
 namespace Arowolo_Delivery_Project.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/basket")]
     [ApiController]
     public class BasketController : ControllerBase
     {

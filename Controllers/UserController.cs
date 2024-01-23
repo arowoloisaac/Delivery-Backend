@@ -13,7 +13,7 @@ using System.Security.Claims;
 
 namespace Arowolo_Delivery_Project.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/account")]
     [ApiController]
     public class UserController : ControllerBase
     {

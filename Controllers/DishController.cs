@@ -11,7 +11,7 @@ using System.Security.Claims;
 
 namespace Arowolo_Delivery_Project.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/dish")]
     [ApiController]
     public class DishController : ControllerBase
     {
@@ -94,7 +94,7 @@ namespace Arowolo_Delivery_Project.Controllers
         }
 
 
-        [HttpGet("{id}/check/rating")]
+        [HttpGet("{id}/rating/check")]
         [Authorize]
         [SwaggerOperation(Summary = "Check if user has a setted rating for a dish")]
         public async Task<IActionResult> CheckRating(Guid id)
