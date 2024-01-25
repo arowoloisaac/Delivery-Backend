@@ -114,17 +114,27 @@ namespace Arowolo_Delivery_Project.Services.DishService
             var dishes = await _context.Dishes.FirstOrDefaultAsync(dish => dish.Id == dishId);
             var currentUser = await _userManager.FindByIdAsync(UserId);
 
-            var newRating = new Rating
+            //to get where the dish has been previously ordered
+            var ordered = await _context.Order.Include(order => order.Baskets).ThenInclude(basket => basket.Dish)
+                .Where(order => order.UserId == currentUser.Id && order.Baskets.Any(basket => basket.Dish.Id == dishId)).AnyAsync();
+
+            if (ordered)
             {
-                DishId = dishId,
-                Value = ratingScore,
-                UserId = currentUser.Id
-            };
+                var newRating = new Rating
+                {
+                    DishId = dishId,
+                    Value = ratingScore,
+                    UserId = currentUser.Id
+                };
 
-            _context.Rating.Add(newRating);
-            await _context.SaveChangesAsync();
+                _context.Rating.Add(newRating);
+                await _context.SaveChangesAsync();
 
-            return newRating;
+                return newRating;
+            }
+            
+            else { return null; }
+            
         }
 
     }

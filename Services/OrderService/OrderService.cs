@@ -124,7 +124,7 @@ namespace Arowolo_Delivery_Project.Services.OrderService
             var newOrder = new Order
             {
                 DeliveryTime = model.DeliveryTime,
-                OrderTime = DateTime.Now,
+                OrderTime = DateTime.Now.AddHours(1),
                 Address = model.Address,
                 UserId = currentUser.Id,
                 Status = Status.InProcess,
