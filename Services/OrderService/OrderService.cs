@@ -36,10 +36,20 @@ namespace Arowolo_Delivery_Project.Services.OrderService
 
             var order = await _context.Order.FirstOrDefaultAsync( order => order.Id == OrderId);
 
-            if (order == null)
+            if (order == null || order.Status == Status.Delivered)
             {
-                throw new ArgumentNullException("Order can't be found");
+                if (order == null)
+                {
+                    throw new ArgumentNullException("Order can't be found");
+                }
+
+                if (order.Status == Status.Delivered)
+                {
+                    throw new Exception("Order already confirmed");
+                }
             }
+
+            
 
             order.Status = Status.Delivered;
 
