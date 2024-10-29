@@ -3973,24 +3973,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\arowo\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\arowo\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\arowo\\source\\repos\\Arowolo_Delivery_Project\\Arowolo_Delivery_Project.csproj",
+      "projectUniqueName": "C:\\Users\\arowo\\source\\repos\\en-backend-backend-lab-1\\Arowolo_Delivery_Project.csproj",
       "projectName": "Arowolo_Delivery_Project",
-      "projectPath": "C:\\Users\\arowo\\source\\repos\\Arowolo_Delivery_Project\\Arowolo_Delivery_Project.csproj",
+      "projectPath": "C:\\Users\\arowo\\source\\repos\\en-backend-backend-lab-1\\Arowolo_Delivery_Project.csproj",
       "packagesPath": "C:\\Users\\arowo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\arowo\\source\\repos\\Arowolo_Delivery_Project\\obj\\",
+      "outputPath": "C:\\Users\\arowo\\source\\repos\\en-backend-backend-lab-1\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
         "C:\\Users\\arowo\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -3998,8 +3993,8 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "https://api.nuget.org/v3/index.json": {},
-        "https://packagesource": {}
+        "C:\\Program Files\\dotnet\\library-packs": {},
+        "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net7.0": {
@@ -4011,6 +4006,11 @@
         "warnAsError": [
           "NU1605"
         ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -4101,7 +4101,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300\\RuntimeIdentifierGraph.json"
       }
     }
   }

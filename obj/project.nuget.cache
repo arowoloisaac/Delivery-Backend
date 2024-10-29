@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "6GeirQzZfpBZxX6l3FymJeWaeKJZcIqMAV7TTMM1pdcM392qT/rg/azUUEYX/9kvEDl2QMgrm4898F2y4B+X6w==",
+  "dgSpecHash": "c3XcGRae6hU=",
   "success": true,
-  "projectFilePath": "C:\\Users\\arowo\\source\\repos\\Arowolo_Delivery_Project\\Arowolo_Delivery_Project.csproj",
+  "projectFilePath": "C:\\Users\\arowo\\source\\repos\\en-backend-backend-lab-1\\Arowolo_Delivery_Project.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\arowo\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\arowo\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

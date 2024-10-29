@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Arowolo_Delivery_Project")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cae6700db6d901451c42883b6d9d8831f6f61f8c")]
 [assembly: System.Reflection.AssemblyProductAttribute("Arowolo_Delivery_Project")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Arowolo_Delivery_Project")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
